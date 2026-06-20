@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ═══════════════════════════════════════════════════════
+   BRAND PALETTE — VedSanjeevani AIOS / Scalystic
+   Rule: NEVER use raw hex in components or pages.
+         Always use these CSS variables or their Tailwind
+         utility equivalents (bg-deep-green, text-teal…)
+═══════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Primary Colors ──────────────────────────────── */
+  --color-deep-green:    #0F2E25;   /* Trust · Growth · Stability     */
+  --color-forest-green:  #1F4D3D;   /* Balance · Harmony · Growth      */
+  --color-sage-green:    #6B8F83;   /* Calm · Clarity · Renewal        */
+  --color-mint:          #E8F2ED;   /* Fresh · Clean · Light           */
+
+  /* ── Accent Colors ───────────────────────────────── */
+  --color-teal:          #0FA38E;   /* Innovation · Energy · Focus     */
+  --color-mint-green:    #35C59A;   /* Progress · Optimism · Success   */
+
+  /* ── Neutral Colors ──────────────────────────────── */
+  --color-charcoal:      #111827;   /* Strength · Depth · Authority    */
+  --color-slate:         #374151;   /* Professional · Solid · Reliable */
+  --color-gray:          #6B7280;   /* Neutral · Balance · Calm        */
+  --color-light-gray:    #E5E7EB;   /* Clean · Subtle · Minimal        */
+  --color-off-white:     #F3F5F4;   /* Soft · Clean · Elegant          */
+
+  /* ── Semantic / Status Colors ────────────────────── */
+  --color-success:       #22C55E;   /* Positive · Success              */
+  --color-warning:       #F59E0B;   /* Caution · Attention             */
+  --color-info:          #3B82F6;   /* Information · Trust             */
+  --color-error:         #EF4444;   /* Error · Alert · Urgent          */
+
+  /* ── Gradient ────────────────────────────────────── */
+  /* Usage in Tailwind: bg-gradient-to-r from-deep-green via-forest-green to-mint-green */
+  /* Usage in CSS: background: var(--gradient-brand) */
+  --gradient-brand: linear-gradient(
+    90deg,
+    var(--color-deep-green),
+    var(--color-forest-green),
+    var(--color-mint-green)
+  );
+
+  /* ── Semantic Role Mapping (light mode) ──────────── */
+  --color-background:          var(--color-off-white);
+  --color-foreground:          var(--color-charcoal);
+  --color-card:                #ffffff;
+  --color-card-foreground:     var(--color-charcoal);
+  --color-popover:             #ffffff;
+  --color-popover-foreground:  var(--color-charcoal);
+  --color-primary:             var(--color-deep-green);
+  --color-primary-foreground:  var(--color-off-white);
+  --color-secondary:           var(--color-forest-green);
+  --color-secondary-foreground: var(--color-off-white);
+  --color-muted:               var(--color-mint);
+  --color-muted-foreground:    var(--color-slate);
+  --color-accent:              var(--color-teal);
+  --color-accent-foreground:   var(--color-off-white);
+  --color-destructive:         var(--color-error);
+  --color-destructive-foreground: var(--color-off-white);
+  --color-border:              var(--color-light-gray);
+  --color-input:               var(--color-light-gray);
+  --color-ring:                var(--color-teal);
+
+  /* ── Radius ──────────────────────────────────────── */
+  --radius:    0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ── Dark Mode Semantic Overrides ────────────────────── */
+.dark {
+  --color-background:          var(--color-deep-green);
+  --color-foreground:          var(--color-off-white);
+  --color-card:                var(--color-forest-green);
+  --color-card-foreground:     var(--color-off-white);
+  --color-popover:             var(--color-forest-green);
+  --color-popover-foreground:  var(--color-off-white);
+  --color-primary:             var(--color-mint-green);
+  --color-primary-foreground:  var(--color-deep-green);
+  --color-secondary:           var(--color-sage-green);
+  --color-secondary-foreground: var(--color-off-white);
+  --color-muted:               var(--color-forest-green);
+  --color-muted-foreground:    var(--color-sage-green);
+  --color-accent:              var(--color-teal);
+  --color-accent-foreground:   var(--color-off-white);
+  --color-destructive:         var(--color-error);
+  --color-destructive-foreground: var(--color-off-white);
+  --color-border:              var(--color-forest-green);
+  --color-input:               var(--color-forest-green);
+  --color-ring:                var(--color-mint-green);
+}
+
+/* ── Base Styles ─────────────────────────────────────── */
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
