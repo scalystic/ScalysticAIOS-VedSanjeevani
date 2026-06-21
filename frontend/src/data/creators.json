@@ -1,0 +1,54 @@
+[
+  {
+    "id": "crt_001",
+    "name": "Priya Sharma",
+    "type": "influencer",
+    "handle": "@priyasharma.wellness",
+    "platform": "Instagram",
+    "contactEmail": "priya@creativestudio.in",
+    "contactPhone": "+91 98765 11001",
+    "ratePerVideo": 25000,
+    "ratePerImage": 12000,
+    "status": "active",
+    "joinedAt": "2025-10-15"
+  },
+  {
+    "id": "crt_002",
+    "name": "Rahul Mehta",
+    "type": "ugc_creator",
+    "handle": "@rahulmehta_fit",
+    "platform": "Instagram",
+    "contactEmail": "rahul.mehta.ugc@gmail.com",
+    "contactPhone": "+91 98765 22002",
+    "ratePerVideo": 15000,
+    "ratePerImage": 8000,
+    "status": "active",
+    "joinedAt": "2025-11-20"
+  },
+  {
+    "id": "crt_003",
+    "name": "Anika Verma",
+    "type": "ugc_creator",
+    "handle": "@anikaverma.life",
+    "platform": "YouTube",
+    "contactEmail": "anika.verma@contentco.in",
+    "contactPhone": "+91 98765 33003",
+    "ratePerVideo": 20000,
+    "ratePerImage": 10000,
+    "status": "active",
+    "joinedAt": "2025-12-01"
+  },
+  {
+    "id": "crt_004",
+    "name": "In House Production",
+    "type": "in_house",
+    "handle": null,
+    "platform": null,
+    "contactEmail": "production@scalystic.in",
+    "contactPhone": "+91 22 1234 5678",
+    "ratePerVideo": 0,
+    "ratePerImage": 0,
+    "status": "active",
+    "joinedAt": "2025-09-01"
+  }
+]

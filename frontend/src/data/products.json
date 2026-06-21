@@ -1,0 +1,152 @@
+[
+  {
+    "id": "prod_001",
+    "name": "Ashwagandha Gold",
+    "sku": "AG-001",
+    "category": "adaptogen",
+    "description": "Premium KSM-66 ashwagandha extract standardised for stress relief, energy, and vitality.",
+    "status": "active",
+    "price": 899,
+    "launchDate": "2025-09-01"
+  },
+  {
+    "id": "prod_002",
+    "name": "Triphala Plus",
+    "sku": "TP-001",
+    "category": "digestive",
+    "description": "Tri-fruit Ayurvedic blend for gut health, detox, and regular digestion.",
+    "status": "active",
+    "price": 499,
+    "launchDate": "2025-10-15"
+  },
+  {
+    "id": "prod_003",
+    "name": "Shilajit Resin",
+    "sku": "SR-001",
+    "category": "adaptogen",
+    "description": "Himalayan shilajit resin for stamina, testosterone support, and deep energy.",
+    "status": "active",
+    "price": 1299,
+    "launchDate": "2025-09-20"
+  },
+  {
+    "id": "prod_004",
+    "name": "Brahmi Mind",
+    "sku": "BM-001",
+    "category": "cognitive",
+    "description": "Bacopa monnieri concentrate for memory, focus, and cognitive sharpness.",
+    "status": "active",
+    "price": 799,
+    "launchDate": "2025-11-01"
+  },
+  {
+    "id": "prod_005",
+    "name": "Neem Glow",
+    "sku": "NG-001",
+    "category": "skin",
+    "description": "Neem leaf extract for clear skin, detox, and anti-bacterial support.",
+    "status": "active",
+    "price": 649,
+    "launchDate": "2025-12-01"
+  },
+  {
+    "id": "prod_006",
+    "name": "Haridra Relief",
+    "sku": "HR-001",
+    "category": "joint",
+    "description": "Curcumin-rich turmeric formula with BioPerine for joint care and inflammation.",
+    "status": "active",
+    "price": 599,
+    "launchDate": "2025-10-10"
+  },
+  {
+    "id": "prod_007",
+    "name": "Moringa Vitals",
+    "sku": "MV-001",
+    "category": "immunity",
+    "description": "Moringa leaf powder capsules packed with vitamins, minerals, and antioxidants.",
+    "status": "active",
+    "price": 449,
+    "launchDate": "2025-11-15"
+  },
+  {
+    "id": "prod_008",
+    "name": "Amla Supreme",
+    "sku": "AS-001",
+    "category": "immunity",
+    "description": "Concentrated amla (Indian gooseberry) for vitamin C, immunity, and hair health.",
+    "status": "active",
+    "price": 549,
+    "launchDate": "2026-01-05"
+  },
+  {
+    "id": "prod_009",
+    "name": "Shatavari Balance",
+    "sku": "SB-001",
+    "category": "womens_health",
+    "description": "Shatavari root extract for hormonal balance, reproductive health, and lactation support.",
+    "status": "active",
+    "price": 699,
+    "launchDate": "2026-02-01"
+  },
+  {
+    "id": "prod_010",
+    "name": "Giloy Detox",
+    "sku": "GD-001",
+    "category": "immunity",
+    "description": "Guduchi stem extract for immunity, detoxification, and chronic fever support.",
+    "status": "active",
+    "price": 399,
+    "launchDate": "2026-01-20"
+  },
+  {
+    "id": "prod_011",
+    "name": "Arjuna Cardio",
+    "sku": "AC-001",
+    "category": "cardiac",
+    "description": "Arjuna bark extract for heart muscle strength, BP management, and circulation.",
+    "status": "active",
+    "price": 849,
+    "launchDate": "2026-03-01"
+  },
+  {
+    "id": "prod_012",
+    "name": "Yashti Comfort",
+    "sku": "YC-001",
+    "category": "respiratory",
+    "description": "Licorice root formulation for throat soothing, respiratory comfort, and vocal health.",
+    "status": "active",
+    "price": 449,
+    "launchDate": "2026-02-15"
+  },
+  {
+    "id": "prod_013",
+    "name": "Punarnava Renal",
+    "sku": "PR-001",
+    "category": "renal",
+    "description": "Punarnava root extract for kidney health, fluid balance, and urinary tract support.",
+    "status": "active",
+    "price": 649,
+    "launchDate": "2026-03-10"
+  },
+  {
+    "id": "prod_014",
+    "name": "Haritaki Digest",
+    "sku": "HD-001",
+    "category": "digestive",
+    "description": "Terminalia chebula for digestive regularity, colon cleanse, and metabolic health.",
+    "status": "active",
+    "price": 399,
+    "launchDate": "2026-04-01"
+  },
+  {
+    "id": "prod_015",
+    "name": "Dashmool Ease",
+    "sku": "DE-001",
+    "category": "pain_relief",
+    "description": "Ten-root Ayurvedic blend for muscle pain, joint stiffness, and post-exercise recovery.",
+    "status": "inactive",
+    "price": 599,
+    "launchDate": "2025-08-01"
+  }
+]

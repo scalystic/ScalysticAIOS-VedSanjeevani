@@ -1,0 +1,164 @@
+[
+  {
+    "id": "ads_001", "campaignId": "cmp_001",
+    "name": "Cold – Women 25-44 Pan India",
+    "status": "active", "audience": "Cold · Women 25–44 · All India · Interests: Wellness, Ayurveda",
+    "budgetType": "daily", "budget": 6000,
+    "spend": 185000, "impressions": 1360000, "reach": 945000, "clicks": 29800,
+    "ctr": 2.19, "cpm": 136.0, "cpc": 6.21, "conversions": 1020, "costPerConversion": 181.4,
+    "revenue": 740000, "roas": 4.00, "startDate": "2026-04-01", "endDate": null
+  },
+  {
+    "id": "ads_002", "campaignId": "cmp_001",
+    "name": "Warm – 7D Website Visitors",
+    "status": "active", "audience": "Warm · Website Visitors (7D) · All Ages · Retargeting",
+    "budgetType": "daily", "budget": 5000,
+    "spend": 142000, "impressions": 1044000, "reach": 720000, "clicks": 22900,
+    "ctr": 2.19, "cpm": 136.0, "cpc": 6.20, "conversions": 790, "costPerConversion": 179.7,
+    "revenue": 572000, "roas": 4.03, "startDate": "2026-04-01", "endDate": null
+  },
+  {
+    "id": "ads_003", "campaignId": "cmp_001",
+    "name": "LAL – 2% Purchase Lookalike",
+    "status": "active", "audience": "Lookalike 2% · Based on purchasers · Pan India",
+    "budgetType": "daily", "budget": 4000,
+    "spend": 85000, "impressions": 620000, "reach": 435000, "clicks": 13500,
+    "ctr": 2.18, "cpm": 137.1, "cpc": 6.30, "conversions": 460, "costPerConversion": 184.8,
+    "revenue": 336000, "roas": 3.95, "startDate": "2026-04-01", "endDate": null
+  },
+  {
+    "id": "ads_004", "campaignId": "cmp_002",
+    "name": "Cold – Men 25-50 Tier 1 Cities",
+    "status": "active", "audience": "Cold · Men 25–50 · Mumbai, Delhi, Bangalore, Pune · Interests: Fitness, Health",
+    "budgetType": "daily", "budget": 4500,
+    "spend": 110000, "impressions": 916000, "reach": 610000, "clicks": 26200,
+    "ctr": 2.86, "cpm": 120.1, "cpc": 4.20, "conversions": 544, "costPerConversion": 202.2,
+    "revenue": 381000, "roas": 3.46, "startDate": "2026-04-15", "endDate": null
+  },
+  {
+    "id": "ads_005", "campaignId": "cmp_002",
+    "name": "Interest – Fitness Enthusiasts",
+    "status": "active", "audience": "Cold · All India · Interests: Gym, Bodybuilding, Sports Nutrition",
+    "budgetType": "daily", "budget": 3500,
+    "spend": 88000, "impressions": 734000, "reach": 490000, "clicks": 21000,
+    "ctr": 2.86, "cpm": 119.9, "cpc": 4.19, "conversions": 436, "costPerConversion": 201.8,
+    "revenue": 305000, "roas": 3.47, "startDate": "2026-04-15", "endDate": null
+  },
+  {
+    "id": "ads_006", "campaignId": "cmp_003",
+    "name": "Search – Branded Hair Loss Keywords",
+    "status": "active", "audience": "Keyword: hair fall solution, hair regrowth, hair loss treatment · All India",
+    "budgetType": "daily", "budget": 5000,
+    "spend": 87000, "impressions": 5200000, "reach": 4100000, "clicks": 28600,
+    "ctr": 0.55, "cpm": 16.7, "cpc": 3.04, "conversions": 340, "costPerConversion": 255.9,
+    "revenue": 238000, "roas": 2.74, "startDate": "2026-05-01", "endDate": null
+  },
+  {
+    "id": "ads_007", "campaignId": "cmp_004",
+    "name": "Cold – Adults 30-55 All India",
+    "status": "active", "audience": "Cold · Adults 30–55 · All India · Interests: Insomnia, Stress Relief, Ayurveda",
+    "budgetType": "daily", "budget": 7000,
+    "spend": 148000, "impressions": 1054000, "reach": 797000, "clicks": 23100,
+    "ctr": 2.19, "cpm": 140.4, "cpc": 6.41, "conversions": 1742, "costPerConversion": 84.9,
+    "revenue": 697000, "roas": 4.71, "startDate": "2026-03-15", "endDate": null
+  },
+  {
+    "id": "ads_008", "campaignId": "cmp_004",
+    "name": "Retargeting – 50% Video Viewers",
+    "status": "active", "audience": "Warm · Engaged with video (50%+ watch) · 30D Window",
+    "budgetType": "daily", "budget": 5000,
+    "spend": 117000, "impressions": 836000, "reach": 633000, "clicks": 18200,
+    "ctr": 2.18, "cpm": 140.0, "cpc": 6.43, "conversions": 1378, "costPerConversion": 84.9,
+    "revenue": 551000, "roas": 4.71, "startDate": "2026-03-15", "endDate": null
+  },
+  {
+    "id": "ads_009", "campaignId": "cmp_005",
+    "name": "Display – Health & Wellness Network",
+    "status": "active", "audience": "Google Display · Health & Wellness, Organic Living · All India",
+    "budgetType": "lifetime", "budget": 200000,
+    "spend": 148000, "impressions": 8900000, "reach": 7200000, "clicks": 35600,
+    "ctr": 0.40, "cpm": 16.6, "cpc": 4.16, "conversions": 0, "costPerConversion": 0,
+    "revenue": 0, "roas": 0, "startDate": "2026-05-10", "endDate": "2026-06-30"
+  },
+  {
+    "id": "ads_010", "campaignId": "cmp_006",
+    "name": "Retargeting – Website Visitors 30D",
+    "status": "active", "audience": "Warm · All website visitors · 30D · Ages 25–50",
+    "budgetType": "daily", "budget": 6000,
+    "spend": 189000, "impressions": 1225000, "reach": 571000, "clicks": 33800,
+    "ctr": 2.76, "cpm": 154.3, "cpc": 5.59, "conversions": 1102, "costPerConversion": 171.5,
+    "revenue": 1102000, "roas": 5.83, "startDate": "2026-04-20", "endDate": null
+  },
+  {
+    "id": "ads_011", "campaignId": "cmp_006",
+    "name": "LAL – 1% Top Customers",
+    "status": "active", "audience": "Lookalike 1% · Based on top LTV customers · Pan India",
+    "budgetType": "daily", "budget": 4000,
+    "spend": 135000, "impressions": 875000, "reach": 409000, "clicks": 24100,
+    "ctr": 2.75, "cpm": 154.3, "cpc": 5.60, "conversions": 788, "costPerConversion": 171.4,
+    "revenue": 788000, "roas": 5.84, "startDate": "2026-04-20", "endDate": null
+  },
+  {
+    "id": "ads_012", "campaignId": "cmp_007",
+    "name": "Test A – Interest Targeting",
+    "status": "paused", "audience": "Cold · Interests: Digestive Health, Ayurveda · All India",
+    "budgetType": "daily", "budget": 3000,
+    "spend": 49000, "impressions": 360000, "reach": 270000, "clicks": 7800,
+    "ctr": 2.17, "cpm": 136.1, "cpc": 6.28, "conversions": 270, "costPerConversion": 181.5,
+    "revenue": 162000, "roas": 3.31, "startDate": "2026-03-01", "endDate": null
+  },
+  {
+    "id": "ads_013", "campaignId": "cmp_007",
+    "name": "Test B – Broad Targeting",
+    "status": "paused", "audience": "Cold · Broad · Ages 28–50 · All India",
+    "budgetType": "daily", "budget": 3000,
+    "spend": 49000, "impressions": 360000, "reach": 270000, "clicks": 7800,
+    "ctr": 2.17, "cpm": 136.1, "cpc": 6.28, "conversions": 270, "costPerConversion": 181.5,
+    "revenue": 162000, "roas": 3.31, "startDate": "2026-03-01", "endDate": null
+  },
+  {
+    "id": "ads_014", "campaignId": "cmp_008",
+    "name": "Search – Digestive Health Keywords",
+    "status": "paused", "audience": "Keyword: gut health, digestive problems, stomach care · All India",
+    "budgetType": "daily", "budget": 3000,
+    "spend": 45000, "impressions": 980000, "reach": 820000, "clicks": 31400,
+    "ctr": 3.20, "cpm": 45.9, "cpc": 1.43, "conversions": 180, "costPerConversion": 250.0,
+    "revenue": 108000, "roas": 2.40, "startDate": "2026-02-15", "endDate": null
+  },
+  {
+    "id": "ads_015", "campaignId": "cmp_009",
+    "name": "Cold – Women 20-40 India",
+    "status": "paused", "audience": "Cold · Women 20–40 · All India · Interests: Hair Care, Beauty",
+    "budgetType": "daily", "budget": 7500,
+    "spend": 163000, "impressions": 1360000, "reach": 980000, "clicks": 38800,
+    "ctr": 2.85, "cpm": 119.9, "cpc": 4.20, "conversions": 810, "costPerConversion": 201.2,
+    "revenue": 567000, "roas": 3.48, "startDate": "2026-05-01", "endDate": "2026-05-31"
+  },
+  {
+    "id": "ads_016", "campaignId": "cmp_010",
+    "name": "Cold – All India Winter",
+    "status": "archived", "audience": "Cold · All India · Ages 25–50 · Seasonal Winter Interest",
+    "budgetType": "daily", "budget": 8000,
+    "spend": 280000, "impressions": 2055000, "reach": 1530000, "clicks": 44900,
+    "ctr": 2.19, "cpm": 136.3, "cpc": 6.24, "conversions": 1543, "costPerConversion": 181.5,
+    "revenue": 1234000, "roas": 4.41, "startDate": "2025-12-01", "endDate": "2026-01-15"
+  },
+  {
+    "id": "ads_017", "campaignId": "cmp_010",
+    "name": "Retargeting + LAL",
+    "status": "archived", "audience": "Warm · Retargeting + Lookalike 1% · Winter Buyers",
+    "budgetType": "daily", "budget": 6000,
+    "spend": 217000, "impressions": 1595000, "reach": 1170000, "clicks": 35000,
+    "ctr": 2.19, "cpm": 136.0, "cpc": 6.20, "conversions": 1197, "costPerConversion": 181.3,
+    "revenue": 958000, "roas": 4.41, "startDate": "2025-12-01", "endDate": "2026-01-15"
+  },
+  {
+    "id": "ads_018", "campaignId": "cmp_011",
+    "name": "Search – New Year Keywords",
+    "status": "archived", "audience": "Keyword: energy booster, stamina, new year fitness · All India",
+    "budgetType": "lifetime", "budget": 300000,
+    "spend": 298000, "impressions": 2480000, "reach": 1900000, "clicks": 70900,
+    "ctr": 2.86, "cpm": 120.2, "cpc": 4.20, "conversions": 1470, "costPerConversion": 202.7,
+    "revenue": 1029000, "roas": 3.45, "startDate": "2025-12-26", "endDate": "2026-01-31"
+  }
+]

@@ -1,8 +1,24 @@
 import './index.css'
-import { BrowserRouter, Routes, Route } from 'react-router'
-import { AppLayout } from '@/components/layout/AppLayout'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 
-// ── Placeholder pages ──────────────────────────────────────────────────────────
+import { AuthProvider, useAuth }  from '@/context/AuthContext'
+import { AppDataProvider }        from '@/context/AppData'
+import { AppLayout }              from '@/components/layout/AppLayout'
+
+import LoginPage         from '@/pages/LoginPage'
+import AgencyPortal      from '@/pages/agency/AgencyPortal'
+import ContentPage       from '@/pages/marketing/ContentPage'
+import AgencyPage        from '@/pages/marketing/AgencyPage'
+import CampaignPage      from '@/pages/marketing/CampaignPage'
+import CampaignDetailPage from '@/pages/marketing/CampaignDetailPage'
+import AgencyDetailPage  from '@/pages/marketing/AgencyDetailPage'
+import ContentDetailPage from '@/pages/marketing/ContentDetailPage'
+import AnalyticsPage     from '@/pages/marketing/AnalyticsPage'
+import CreatorDetailPage from '@/pages/marketing/CreatorDetailPage'
+import ProductPage       from '@/pages/marketing/ProductPage'
+import ProductDetailPage from '@/pages/marketing/ProductDetailPage'
+
+// ── Placeholder ────────────────────────────────────────────────────────────────
 
 function Page({ title }: { title: string }) {
   return (
@@ -12,22 +28,60 @@ function Page({ title }: { title: string }) {
   )
 }
 
+// ── Routed views (reads auth state) ───────────────────────────────────────────
+
+function AppRoutes() {
+  const { user } = useAuth()
+
+  if (!user) {
+    return (
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*"      element={<Navigate to="/login" replace />} />
+      </Routes>
+    )
+  }
+
+  if (user.role === 'agency') {
+    return (
+      <Routes>
+        <Route path="*" element={<AgencyPortal />} />
+      </Routes>
+    )
+  }
+
+  // Admin / staff
+  return (
+    <AppLayout>
+      <Routes>
+        <Route path="/"                       element={<Page title="Home" />} />
+        <Route path="/marketing"              element={<AnalyticsPage />} />
+        <Route path="/marketing/products"     element={<ProductPage />} />
+        <Route path="/marketing/products/:id" element={<ProductDetailPage />} />
+        <Route path="/marketing/contents"     element={<ContentPage />} />
+        <Route path="/marketing/contents/:id" element={<ContentDetailPage />} />
+        <Route path="/marketing/agencies"     element={<AgencyPage />} />
+        <Route path="/marketing/agencies/:id" element={<AgencyDetailPage />} />
+        <Route path="/marketing/campaigns"    element={<CampaignPage />} />
+        <Route path="/marketing/campaigns/:id" element={<CampaignDetailPage />} />
+        <Route path="/marketing/creators/:id" element={<CreatorDetailPage />} />
+        <Route path="/settings"               element={<Page title="Settings" />} />
+        <Route path="*"                       element={<Navigate to="/marketing" replace />} />
+      </Routes>
+    </AppLayout>
+  )
+}
+
 // ── App ────────────────────────────────────────────────────────────────────────
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AppLayout>
-        <Routes>
-          <Route path="/"                      element={<Page title="Home" />} />
-          <Route path="/marketing"             element={<Page title="Marketing — Overview" />} />
-          <Route path="/marketing/contents"    element={<Page title="Marketing — Contents" />} />
-          <Route path="/marketing/agencies"    element={<Page title="Marketing — Agencies" />} />
-          <Route path="/marketing/campaigns"   element={<Page title="Marketing — Campaigns" />} />
-          <Route path="/marketing/analytics"   element={<Page title="Marketing — Analytics" />} />
-          <Route path="/settings"              element={<Page title="Settings" />} />
-        </Routes>
-      </AppLayout>
+      <AuthProvider>
+        <AppDataProvider>
+          <AppRoutes />
+        </AppDataProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

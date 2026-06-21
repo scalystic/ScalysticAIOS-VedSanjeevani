@@ -1,7 +1,8 @@
 import { NavLink, useLocation, useNavigate } from 'react-router'
-import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react'
+import { ChevronLeft, ChevronRight, LogOut, Settings } from 'lucide-react'
 import { navigation, type NavItem, type NavChild } from '@/config/navigation'
 import { useUIStore } from '@/store/ui'
+import { useAuth } from '@/context/AuthContext'
 import { cn } from '@/lib/utils'
 
 // ─── Root sidebar ─────────────────────────────────────────────────────────────
@@ -51,7 +52,7 @@ function SidebarHeader({ collapsed, onToggle }: { collapsed: boolean; onToggle: 
         </span>
         {!collapsed && (
           <span className="font-semibold text-sm text-foreground tracking-tight whitespace-nowrap">
-            VedSanjeevani
+            Scalystic AI
           </span>
         )}
       </div>
@@ -198,6 +199,7 @@ function ChildLink({ child }: { child: NavChild }) {
 // ─── Footer (user profile + log out) ─────────────────────────────────────────
 
 function SidebarFooter({ collapsed }: { collapsed: boolean }) {
+  const { logout } = useAuth()
   return (
     <div className="border-t border-light-gray shrink-0 p-3 space-y-1">
       {/* User row */}
@@ -218,10 +220,31 @@ function SidebarFooter({ collapsed }: { collapsed: boolean }) {
         )}
       </div>
 
+      {/* Settings */}
+      <Tooltip label="Settings" collapsed={collapsed}>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) =>
+            cn(
+              'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-150 cursor-pointer group w-full',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint-green',
+              collapsed && 'justify-center px-0',
+              isActive
+                ? 'bg-mint text-deep-green font-medium'
+                : 'text-slate hover:bg-light-gray hover:text-foreground'
+            )
+          }
+        >
+          <Settings className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {!collapsed && <span className="whitespace-nowrap">Settings</span>}
+        </NavLink>
+      </Tooltip>
+
       {/* Log out */}
       <Tooltip label="Log out" collapsed={collapsed}>
         <button
           type="button"
+          onClick={logout}
           className={cn(
             'flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray',
             'hover:bg-light-gray hover:text-foreground cursor-pointer transition-colors duration-150',

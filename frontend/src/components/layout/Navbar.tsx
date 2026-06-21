@@ -24,13 +24,13 @@ export function Navbar() {
         <NavLink
           to="/"
           className="flex items-center gap-2.5 shrink-0 mr-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint-green rounded-md"
-          aria-label="VedSanjeevani home"
+          aria-label="Scalystic AI home"
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-mint-green text-deep-green font-bold text-[13px] tracking-tight select-none">
             VS
           </span>
           <span className="text-off-white font-semibold text-[15px] tracking-tight hidden sm:block">
-            VedSanjeevani
+            Scalystic AI
           </span>
         </NavLink>
 

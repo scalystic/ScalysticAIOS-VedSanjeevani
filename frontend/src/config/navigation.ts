@@ -4,8 +4,7 @@ import {
   FileVideo,
   Building2,
   Megaphone,
-  LineChart,
-  Settings,
+  Package,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -51,6 +50,13 @@ export const navigation: NavItem[] = [
         end: true,
       },
       {
+        id: 'products',
+        label: 'Products',
+        icon: Package,
+        path: '/marketing/products',
+        permission: 'product.view',
+      },
+      {
         id: 'contents',
         label: 'Contents',
         icon: FileVideo,
@@ -71,22 +77,7 @@ export const navigation: NavItem[] = [
         path: '/marketing/campaigns',
         permission: 'campaign.view',
       },
-      {
-        id: 'analytics',
-        label: 'Analytics',
-        icon: LineChart,
-        path: '/marketing/analytics',
-        permission: 'analytics.view',
-      },
     ],
-  },
-
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: Settings,
-    path: '/settings',
-    permission: 'settings.manage',
   },
 ]
 

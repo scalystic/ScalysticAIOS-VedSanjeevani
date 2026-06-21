@@ -1,0 +1,226 @@
+[
+  {
+    "id": "ad_001", "adSetId": "ads_001", "campaignId": "cmp_001",
+    "name": "Ashwagandha Stress Relief – Version A",
+    "status": "active", "contentId": "cnt_001", "contentName": "Ashwagandha – Stress Relief 30s", "contentType": "video",
+    "headline": "Beat Stress Naturally with Ashwagandha Gold",
+    "primaryText": "Feeling overwhelmed? Ashwagandha Gold helps you manage stress & restore calm. Clinically tested.",
+    "spend": 100000, "impressions": 735000, "clicks": 16100, "ctr": 2.19, "conversions": 551, "roas": 4.02
+  },
+  {
+    "id": "ad_002", "adSetId": "ads_001", "campaignId": "cmp_001",
+    "name": "Ashwagandha Stress Relief – Version B",
+    "status": "active", "contentId": "cnt_001", "contentName": "Ashwagandha – Stress Relief 30s", "contentType": "video",
+    "headline": "India's #1 Ashwagandha for Daily Stress",
+    "primaryText": "Trusted by 2 Lakh+ customers. Ashwagandha Gold — pure, potent, proven.",
+    "spend": 85000, "impressions": 625000, "clicks": 13700, "ctr": 2.19, "conversions": 469, "roas": 3.96
+  },
+  {
+    "id": "ad_003", "adSetId": "ads_002", "campaignId": "cmp_001",
+    "name": "Retargeting – Limited Offer Creative",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Still Thinking? Get 20% Off Today Only",
+    "primaryText": "You visited Ashwagandha Gold. Don't miss this exclusive offer — ends tonight.",
+    "spend": 80000, "impressions": 588000, "clicks": 12900, "ctr": 2.19, "conversions": 445, "roas": 4.05
+  },
+  {
+    "id": "ad_004", "adSetId": "ads_002", "campaignId": "cmp_001",
+    "name": "Retargeting – Social Proof Creative",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "2 Lakh Happy Customers Can't Be Wrong",
+    "primaryText": "See why customers love Ashwagandha Gold. Real results. No side effects.",
+    "spend": 62000, "impressions": 456000, "clicks": 10000, "ctr": 2.19, "conversions": 345, "roas": 4.00
+  },
+  {
+    "id": "ad_005", "adSetId": "ads_003", "campaignId": "cmp_001",
+    "name": "LAL – Testimonial Video",
+    "status": "active", "contentId": "cnt_001", "contentName": "Ashwagandha – Stress Relief 30s", "contentType": "video",
+    "headline": "Real Stories. Real Results with Ashwagandha Gold",
+    "primaryText": "Watch how Priya went from burnout to balance with Ashwagandha Gold in 4 weeks.",
+    "spend": 85000, "impressions": 620000, "clicks": 13500, "ctr": 2.18, "conversions": 460, "roas": 3.95
+  },
+  {
+    "id": "ad_006", "adSetId": "ads_004", "campaignId": "cmp_002",
+    "name": "Shilajit – Energy Boost Static",
+    "status": "active", "contentId": "cnt_003", "contentName": "Shilajit – Energy Banner", "contentType": "image",
+    "headline": "Unlock Peak Energy with Shilajit Pro",
+    "primaryText": "Pure Himalayan Shilajit for stamina, strength & vitality. Used by athletes & professionals.",
+    "spend": 65000, "impressions": 540000, "clicks": 15400, "ctr": 2.85, "conversions": 320, "roas": 3.48
+  },
+  {
+    "id": "ad_007", "adSetId": "ads_004", "campaignId": "cmp_002",
+    "name": "Shilajit – Performance Carousel",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Feel the Difference in 7 Days",
+    "primaryText": "Shilajit Pro — 85+ minerals, Fulvic acid. No fillers. 30-day money back guarantee.",
+    "spend": 45000, "impressions": 376000, "clicks": 10800, "ctr": 2.87, "conversions": 224, "roas": 3.43
+  },
+  {
+    "id": "ad_008", "adSetId": "ads_005", "campaignId": "cmp_002",
+    "name": "Shilajit – Fitness Audience Creative",
+    "status": "active", "contentId": "cnt_003", "contentName": "Shilajit – Energy Banner", "contentType": "image",
+    "headline": "Level Up Your Training with Shilajit Pro",
+    "primaryText": "Natural testosterone support, faster recovery, sustained energy. Try Shilajit Pro today.",
+    "spend": 88000, "impressions": 734000, "clicks": 21000, "ctr": 2.86, "conversions": 436, "roas": 3.47
+  },
+  {
+    "id": "ad_009", "adSetId": "ads_006", "campaignId": "cmp_003",
+    "name": "HairVeda – Search Ad Variant A",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Stop Hair Fall in 30 Days | HairVeda",
+    "primaryText": "Clinically proven Ayurvedic formula. Strengthens roots, reduces hair fall, boosts growth.",
+    "spend": 50000, "impressions": 2980000, "clicks": 16400, "ctr": 0.55, "conversions": 195, "roas": 2.73
+  },
+  {
+    "id": "ad_010", "adSetId": "ads_006", "campaignId": "cmp_003",
+    "name": "HairVeda – Search Ad Variant B",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Ayurvedic Hair Regrowth | Free Shipping",
+    "primaryText": "Bhringraj, Amla, Brahmi — time-tested herbs for thick, healthy hair. Order today.",
+    "spend": 37000, "impressions": 2220000, "clicks": 12200, "ctr": 0.55, "conversions": 145, "roas": 2.76
+  },
+  {
+    "id": "ad_011", "adSetId": "ads_007", "campaignId": "cmp_004",
+    "name": "Sleep Well – Calm Night Creative",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Wake Up Refreshed Every Morning",
+    "primaryText": "Sleep Well combines Ashwagandha + Brahmi + Jatamansi for deep, restful sleep. No habit forming.",
+    "spend": 85000, "impressions": 605000, "clicks": 13200, "ctr": 2.18, "conversions": 998, "roas": 4.69
+  },
+  {
+    "id": "ad_012", "adSetId": "ads_007", "campaignId": "cmp_004",
+    "name": "Sleep Well – Insomnia Pain Point",
+    "status": "active", "contentId": "cnt_004", "contentName": "Brahmi – Memory Boost 60s", "contentType": "video",
+    "headline": "Tired of Counting Sheep? Try This.",
+    "primaryText": "Sleep Well — a safe, natural solution for insomnia & anxiety-driven sleeplessness.",
+    "spend": 63000, "impressions": 449000, "clicks": 9900, "ctr": 2.20, "conversions": 744, "roas": 4.74
+  },
+  {
+    "id": "ad_013", "adSetId": "ads_008", "campaignId": "cmp_004",
+    "name": "Sleep Well – Video Re-engager",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "You Watched. Now Sleep Better Tonight.",
+    "primaryText": "Limited offer for early viewers — 15% off Sleep Well. Use code SLEEP15.",
+    "spend": 117000, "impressions": 836000, "clicks": 18200, "ctr": 2.18, "conversions": 1378, "roas": 4.71
+  },
+  {
+    "id": "ad_014", "adSetId": "ads_009", "campaignId": "cmp_005",
+    "name": "Moringa – Display Banner Large",
+    "status": "active", "contentId": "cnt_007", "contentName": "Moringa – Daily Wellness", "contentType": "image",
+    "headline": "Moringa Power – Superfood for Daily Wellness",
+    "primaryText": "92 nutrients, 46 antioxidants. Moringa Power — nature's most complete daily supplement.",
+    "spend": 90000, "impressions": 5400000, "clicks": 21600, "ctr": 0.40, "conversions": 0, "roas": 0
+  },
+  {
+    "id": "ad_015", "adSetId": "ads_009", "campaignId": "cmp_005",
+    "name": "Moringa – Display Banner Small",
+    "status": "active", "contentId": "cnt_007", "contentName": "Moringa – Daily Wellness", "contentType": "image",
+    "headline": "The Green Superfood You've Been Missing",
+    "primaryText": "Detox. Energise. Nourish. Moringa Power daily capsules.",
+    "spend": 58000, "impressions": 3500000, "clicks": 14000, "ctr": 0.40, "conversions": 0, "roas": 0
+  },
+  {
+    "id": "ad_016", "adSetId": "ads_010", "campaignId": "cmp_006",
+    "name": "Brahmi – Memory Retargeting Video",
+    "status": "active", "contentId": "cnt_004", "contentName": "Brahmi – Memory Boost 60s", "contentType": "video",
+    "headline": "Improve Focus & Memory Naturally",
+    "primaryText": "You explored Brahmi Mind. Here's why 80,000+ customers chose it for mental clarity.",
+    "spend": 105000, "impressions": 680000, "clicks": 18800, "ctr": 2.76, "conversions": 612, "roas": 5.82
+  },
+  {
+    "id": "ad_017", "adSetId": "ads_010", "campaignId": "cmp_006",
+    "name": "Brahmi – Offer Reminder",
+    "status": "active", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Last Chance – 18% Off Brahmi Mind",
+    "primaryText": "You left without purchasing. Get 18% off today + free shipping on Brahmi Mind.",
+    "spend": 84000, "impressions": 545000, "clicks": 15000, "ctr": 2.75, "conversions": 490, "roas": 5.84
+  },
+  {
+    "id": "ad_018", "adSetId": "ads_011", "campaignId": "cmp_006",
+    "name": "Brahmi – LAL Testimonial",
+    "status": "active", "contentId": "cnt_004", "contentName": "Brahmi – Memory Boost 60s", "contentType": "video",
+    "headline": "Students & Professionals Love Brahmi Mind",
+    "primaryText": "Watch how Brahmi Mind improved focus & reduced brain fog in just 3 weeks.",
+    "spend": 135000, "impressions": 875000, "clicks": 24100, "ctr": 2.75, "conversions": 788, "roas": 5.84
+  },
+  {
+    "id": "ad_019", "adSetId": "ads_012", "campaignId": "cmp_007",
+    "name": "Triphala – Interest Creative A",
+    "status": "paused", "contentId": "cnt_002", "contentName": "Triphala – Gut Health", "contentType": "image",
+    "headline": "Reset Your Gut with Triphala Cleanse",
+    "primaryText": "Triphala — 3000 years of Ayurvedic wisdom for complete digestive health.",
+    "spend": 49000, "impressions": 360000, "clicks": 7800, "ctr": 2.17, "conversions": 270, "roas": 3.31
+  },
+  {
+    "id": "ad_020", "adSetId": "ads_013", "campaignId": "cmp_007",
+    "name": "Triphala – Broad Creative B",
+    "status": "paused", "contentId": "cnt_002", "contentName": "Triphala – Gut Health", "contentType": "image",
+    "headline": "Cleanse & Detox Naturally | Triphala",
+    "primaryText": "India's trusted gut health solution. No chemicals. Just pure Triphala.",
+    "spend": 49000, "impressions": 360000, "clicks": 7800, "ctr": 2.17, "conversions": 270, "roas": 3.31
+  },
+  {
+    "id": "ad_021", "adSetId": "ads_014", "campaignId": "cmp_008",
+    "name": "ColoStrong – Search Ad A",
+    "status": "paused", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Colon Cleanse Supplement | ColoStrong",
+    "primaryText": "Natural colon cleansing formula. Improve gut health, reduce bloating. Order online.",
+    "spend": 25000, "impressions": 545000, "clicks": 17500, "ctr": 3.21, "conversions": 100, "roas": 2.40
+  },
+  {
+    "id": "ad_022", "adSetId": "ads_014", "campaignId": "cmp_008",
+    "name": "ColoStrong – Search Ad B",
+    "status": "paused", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Best Digestive Supplement India | Free Ship",
+    "primaryText": "ColoStrong — a powerful blend for better digestion, regularity and gut balance.",
+    "spend": 20000, "impressions": 435000, "clicks": 13900, "ctr": 3.19, "conversions": 80, "roas": 2.40
+  },
+  {
+    "id": "ad_023", "adSetId": "ads_015", "campaignId": "cmp_009",
+    "name": "HairVeda – Women Traffic Creative",
+    "status": "paused", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Stronger Hair in 30 Days | HairVeda",
+    "primaryText": "Join 50,000+ women who stopped hair fall with HairVeda's Ayurvedic formula.",
+    "spend": 163000, "impressions": 1360000, "clicks": 38800, "ctr": 2.85, "conversions": 810, "roas": 3.48
+  },
+  {
+    "id": "ad_024", "adSetId": "ads_016", "campaignId": "cmp_010",
+    "name": "Ashwagandha – Winter Sale Banner",
+    "status": "archived", "contentId": "cnt_001", "contentName": "Ashwagandha – Stress Relief 30s", "contentType": "video",
+    "headline": "Winter Sale — 25% Off Ashwagandha Gold",
+    "primaryText": "Beat winter fatigue & stress naturally. Limited time winter offer — shop now.",
+    "spend": 160000, "impressions": 1175000, "clicks": 25700, "ctr": 2.19, "conversions": 882, "roas": 4.42
+  },
+  {
+    "id": "ad_025", "adSetId": "ads_016", "campaignId": "cmp_010",
+    "name": "Ashwagandha – Winter Cold Audience",
+    "status": "archived", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Stay Strong This Winter with Ashwagandha",
+    "primaryText": "Boost immunity, energy & resilience. Ashwagandha Gold — your winter wellness partner.",
+    "spend": 120000, "impressions": 880000, "clicks": 19200, "ctr": 2.18, "conversions": 661, "roas": 4.40
+  },
+  {
+    "id": "ad_026", "adSetId": "ads_017", "campaignId": "cmp_010",
+    "name": "Ashwagandha – Retargeting Winter Offer",
+    "status": "archived", "contentId": "cnt_001", "contentName": "Ashwagandha – Stress Relief 30s", "contentType": "video",
+    "headline": "You Left Something Behind — 25% Off Inside",
+    "primaryText": "Your cart has Ashwagandha Gold. Grab it at 25% off before the winter sale ends.",
+    "spend": 217000, "impressions": 1595000, "clicks": 35000, "ctr": 2.19, "conversions": 1197, "roas": 4.41
+  },
+  {
+    "id": "ad_027", "adSetId": "ads_018", "campaignId": "cmp_011",
+    "name": "Shilajit Pro – New Year Search Ad",
+    "status": "archived", "contentId": "cnt_003", "contentName": "Shilajit – Energy Banner", "contentType": "image",
+    "headline": "New Year, New Energy | Shilajit Pro",
+    "primaryText": "Start 2026 with unstoppable energy. Pure Himalayan Shilajit — free delivery.",
+    "spend": 175000, "impressions": 1460000, "clicks": 41700, "ctr": 2.86, "conversions": 865, "roas": 3.45
+  },
+  {
+    "id": "ad_028", "adSetId": "ads_018", "campaignId": "cmp_011",
+    "name": "Shilajit Pro – Resolution Campaign",
+    "status": "archived", "contentId": null, "contentName": "—", "contentType": "image",
+    "headline": "Resolution: More Energy in 2026",
+    "primaryText": "Keep your new year resolution with Shilajit Pro. Natural, powerful, trusted.",
+    "spend": 123000, "impressions": 1020000, "clicks": 29200, "ctr": 2.86, "conversions": 605, "roas": 3.45
+  }
+]
