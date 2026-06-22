@@ -231,30 +231,14 @@ export default function ContentPage() {
     }
   }
 
-  const getMetaAdsEta = (status: ContentStatus, createdAt: string): string => {
-    if (status === 'active') return 'Running'
-    if (status === 'completed') return 'Completed'
-    if (status === 'unassigned') return 'TBD'
-    
-    const createdDate = new Date(createdAt)
-    let daysToAdd = 7
-    if (status === 'received') daysToAdd = 3
-    if (status === 'assigned') daysToAdd = 10
-
-    const etaDate = new Date(createdDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000)
-    const today = new Date(TODAY)
-    const diffTime = etaDate.getTime() - today.getTime()
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-    if (diffDays < 0) {
-      return 'Pending launch'
-    } else if (diffDays === 0) {
-      return 'Today'
-    } else if (diffDays === 1) {
-      return 'Tomorrow'
-    } else {
-      return etaDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })
-    }
+  function handleMarkActive(id: string) {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, status: 'active' as ContentStatus, metaActiveDate: TODAY }
+          : item
+      )
+    )
   }
 
   // ── Filtered + sorted rows ──
@@ -305,10 +289,13 @@ export default function ContentPage() {
       category:      values.category,
       creator:       values.creator,
       product:       values.product,
-      driveUrl:      values.driveUrl,
-      agency:        values.agency,
-      status:        values.agency ? 'received' : 'unassigned',
-      campaignCount: 0,
+      driveUrl:       values.driveUrl,
+      thumbnail:      null,
+      agency:         values.agency,
+      status:         values.agency ? 'received' : 'unassigned',
+      metaVideoId:    null,
+      metaActiveDate: null,
+      campaignCount:  0,
       spend:         0,
       revenue:       0,
       roas:          0,
@@ -485,7 +472,6 @@ export default function ContentPage() {
                 <span className="flex items-center gap-1.5">Agency <SortIcon col="agency" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
               <TableHead className="whitespace-nowrap">Created</TableHead>
-              <TableHead className="whitespace-nowrap">ETA (Meta Ads)</TableHead>
               <TableHead className={sortableTh} onClick={() => toggleSort('status')}>
                 <span className="flex items-center gap-1.5">Status <SortIcon col="status" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
@@ -499,7 +485,7 @@ export default function ContentPage() {
           <TableBody>
             {rows.length === 0 ? (
               <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={8} className="py-12 text-center text-gray text-sm">
+                <TableCell colSpan={7} className="py-12 text-center text-gray text-sm">
                   No content matches your filters.
                 </TableCell>
               </TableRow>
@@ -549,23 +535,6 @@ export default function ContentPage() {
                     {new Date(item.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                   </TableCell>
 
-                  {/* ETA to run on Meta Ads */}
-                  <TableCell className="whitespace-nowrap">
-                    {(() => {
-                      const eta = getMetaAdsEta(item.status, item.createdAt)
-                      if (eta === 'Running') {
-                        return <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />Running</span>
-                      }
-                      if (eta === 'Completed') {
-                        return <span className="text-xs font-medium text-gray-500">Completed</span>
-                      }
-                      if (eta === 'TBD') {
-                        return <span className="text-xs text-gray-400 italic">—</span>
-                      }
-                      return <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">{eta}</span>
-                    })()}
-                  </TableCell>
-
                   {/* Status */}
                   <TableCell>
                     <Badge variant={STATUS_VARIANT[item.status]}>
@@ -600,11 +569,20 @@ export default function ContentPage() {
                           <span className="sr-only">Row actions</span>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-40">
+                      <DropdownMenuContent align="end" className="w-44">
                         <DropdownMenuItem onClick={() => setEditingItem(item)}>
                           <Pencil className="h-3.5 w-3.5" />
                           Edit
                         </DropdownMenuItem>
+                        {item.status === 'received' && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => handleMarkActive(item.id)}>
+                              <CalendarDays className="h-3.5 w-3.5" />
+                              Mark as Active
+                            </DropdownMenuItem>
+                          </>
+                        )}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                           <a href={item.driveUrl} target="_blank" rel="noopener noreferrer">

@@ -598,6 +598,23 @@ export default function ContentDetailPage() {
               )}
               {!content.agency && <span className="text-sm text-gray italic">No agency</span>}
             </div>
+            {(content.metaVideoId || content.metaActiveDate) && (
+              <div className="flex flex-wrap items-center gap-3 mt-2">
+                {content.metaVideoId && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-slate bg-muted px-2.5 py-1 rounded-md">
+                    <span className="font-medium text-gray">Meta ID</span>
+                    <span className="font-mono">{content.metaVideoId}</span>
+                  </span>
+                )}
+                {content.metaActiveDate && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-success font-medium bg-success/10 px-2.5 py-1 rounded-md">
+                    <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                    Active on Meta since{' '}
+                    {new Date(content.metaActiveDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

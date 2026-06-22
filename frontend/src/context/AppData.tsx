@@ -34,9 +34,10 @@ export interface ContentItem {
   driveUrl:      string
   thumbnail:     string | null
   agency:        string | null
-  status:        ContentStatus
-  metaVideoId:   string | null
-  campaignCount: number
+  status:          ContentStatus
+  metaVideoId:     string | null
+  metaActiveDate:  string | null
+  campaignCount:   number
   spend:         number
   revenue:       number
   roas:          number
