@@ -2,8 +2,8 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import {
   Target, MousePointerClick, Eye, Users, Heart, Play, Download,
-  Search, Plus, ArrowUpDown, ArrowUp, ArrowDown,
-  MoreHorizontal, Pencil, Pause, CirclePlay, Archive,
+  Search, ArrowUpDown, ArrowUp, ArrowDown,
+  MoreHorizontal, Pencil, Pause, CirclePlay, Archive, RefreshCw,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -139,8 +139,15 @@ export default function CampaignPage() {
   const [sortDir,         setSortDir]         = useState<SortDir>('desc')
 
   // ── Dialog state ──
-  const [addOpen,      setAddOpen]      = useState(false)
   const [editingItem,  setEditingItem]  = useState<CampaignItem | null>(null)
+  const [isSyncing,    setIsSyncing]    = useState(false)
+
+  const handleSync = () => {
+    setIsSyncing(true)
+    setTimeout(() => {
+      setIsSyncing(false)
+    }, 1500)
+  }
 
   // ── Summary stats ──
   const activeItems    = items.filter((c) => c.status === 'active')
@@ -182,35 +189,6 @@ export default function CampaignPage() {
   }
 
   // ── CRUD / status handlers ──
-  function handleAdd(values: CampaignFormValues) {
-    const newItem: CampaignItem = {
-      id:                `cmp_${Date.now()}`,
-      name:              values.name,
-      objective:         values.objective,
-      status:            'draft',
-      budgetType:        values.budgetType,
-      budget:            values.budget,
-      agency:            values.agency,
-      adAccountId:       values.adAccountId,
-      platform:          values.platform,
-      startDate:         values.startDate,
-      endDate:           values.endDate,
-      spend:             0,
-      impressions:       0,
-      reach:             0,
-      clicks:            0,
-      ctr:               0,
-      cpm:               0,
-      cpc:               0,
-      conversions:       0,
-      costPerConversion: 0,
-      revenue:           0,
-      roas:              0,
-      createdAt:         new Date().toISOString().split('T')[0],
-    }
-    setItems((prev) => [newItem, ...prev])
-    setAddOpen(false)
-  }
 
   function handleEdit(values: CampaignFormValues) {
     if (!editingItem) return
@@ -237,9 +215,9 @@ export default function CampaignPage() {
           <h1 className="text-xl font-bold text-foreground">Campaigns</h1>
           <p className="mt-0.5 text-sm text-gray">Manage and monitor your Meta Ads campaigns.</p>
         </div>
-        <Button onClick={() => setAddOpen(true)}>
-          <Plus />
-          New Campaign
+        <Button onClick={handleSync} disabled={isSyncing} className="gap-2">
+          <RefreshCw className={cn("h-4 w-4", isSyncing && "animate-spin")} />
+          {isSyncing ? 'Syncing...' : 'Sync with Meta'}
         </Button>
       </div>
 
@@ -511,14 +489,7 @@ export default function CampaignPage() {
         )}
       </Card>
 
-      {/* ── Add Campaign dialog ── */}
-      <CampaignForm
-        mode="add"
-        open={addOpen}
-        onOpenChange={setAddOpen}
-        onSave={handleAdd}
-        agencies={agencyNames}
-      />
+
 
       {/* ── Edit Campaign dialog ── */}
       <CampaignForm

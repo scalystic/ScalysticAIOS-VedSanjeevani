@@ -26,12 +26,17 @@ export function Navbar() {
           className="flex items-center gap-2.5 shrink-0 mr-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint-green rounded-md"
           aria-label="Scalystic AI home"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-mint-green text-deep-green font-bold text-[13px] tracking-tight select-none">
-            VS
-          </span>
-          <span className="text-off-white font-semibold text-[15px] tracking-tight hidden sm:block">
-            Scalystic AI
-          </span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white overflow-hidden ring-1 ring-white/10">
+            <img src="/scalystic_logo_only.png" alt="Scalystic logo" className="w-full h-full object-contain" />
+          </div>
+          <div className="hidden sm:flex flex-col">
+            <span className="text-off-white font-bold text-sm leading-tight">
+              Scalystic AIOS
+            </span>
+            <span className="text-mint-green text-[10px] font-semibold tracking-wider">
+              Ved Sanjeevani
+            </span>
+          </div>
         </NavLink>
 
         {/* ── Desktop nav items ── */}

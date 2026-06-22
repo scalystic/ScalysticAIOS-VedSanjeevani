@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router'
 import {
   FileVideo, Image,
   Search, Plus, ArrowUpDown, ArrowUp, ArrowDown,
-  ExternalLink, MoreHorizontal, Pencil, CalendarDays,
+  ExternalLink, MoreHorizontal, Pencil, CalendarDays, CalendarIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+import type { DateRange } from 'react-day-picker'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button }    from '@/components/ui/button'
 import { Badge, type BadgeProps } from '@/components/ui/badge'
 import { Input }     from '@/components/ui/input'
@@ -20,6 +23,7 @@ import {
 
 import { ContentForm, type ContentFormValues } from './ContentForm'
 import { useAppData, type ContentItem, type ContentStatus, type ContentType, type ContentCategory } from '@/context/AppData'
+
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -121,22 +125,137 @@ export default function ContentPage() {
   const [statusFilter, setStatusFilter]   = useState<ContentStatus   | 'all'>('all')
   const [typeFilter, setTypeFilter]       = useState<ContentType     | 'all'>('all')
   const [categoryFilter, setCategoryFilter] = useState<ContentCategory | 'all'>('all')
+  const [datePreset, setDatePreset]       = useState<string>('all')
   const [dateFrom, setDateFrom]           = useState('')
   const [dateTo, setDateTo]               = useState('')
   const [sortKey, setSortKey]             = useState<SortKey>('roas')
   const [sortDir, setSortDir]             = useState<SortDir>('desc')
 
+  // Sync date range helper
+  const range = useMemo<DateRange | undefined>(() => {
+    if (!dateFrom) return undefined
+    // Create date from "YYYY-MM-DD" local format
+    const [yf, mf, df] = dateFrom.split('-').map(Number)
+    const fromDate = new Date(yf, mf - 1, df)
+    
+    let toDate: Date | undefined = undefined
+    if (dateTo) {
+      const [yt, mt, dt] = dateTo.split('-').map(Number)
+      toDate = new Date(yt, mt - 1, dt)
+    }
+    return {
+      from: fromDate,
+      to: toDate
+    }
+  }, [dateFrom, dateTo])
+
+  const formatLocalDate = (d: Date): string => {
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const handleRangeSelect = (newRange: DateRange | undefined) => {
+    if (!newRange) {
+      setDateFrom('')
+      setDateTo('')
+      return
+    }
+    if (newRange.from) {
+      setDateFrom(formatLocalDate(newRange.from))
+    } else {
+      setDateFrom('')
+    }
+    if (newRange.to) {
+      setDateTo(formatLocalDate(newRange.to))
+    } else {
+      setDateTo('')
+    }
+  }
+
+
+
   // ── Dialog state ──
   const [addOpen, setAddOpen]         = useState(false)
   const [editingItem, setEditingItem] = useState<ContentItem | null>(null)
 
-  // ── Summary stats — spend/revenue derived from adItems ──
-  const allPerf         = useMemo(() => [...contentPerf.values()], [contentPerf])
-  const totalSpend      = allPerf.reduce((s, p) => s + p.spend,   0)
-  const totalRevenue    = allPerf.reduce((s, p) => s + p.revenue, 0)
-  const overallRoas     = totalSpend > 0 ? totalRevenue / totalSpend : 0
+  // ── Summary stats ──
+  const videoCount      = items.filter((c) => c.type === 'video').length
+  const imageCount      = items.filter((c) => c.type === 'image').length
   const activeCount     = items.filter((c) => c.status === 'active').length
+  const pipelineCount   = items.filter((c) => c.status === 'assigned' || c.status === 'received').length
   const unassignedCount = items.filter((c) => c.status === 'unassigned').length
+
+  // Date utilities
+  const TODAY = '2026-06-21'
+  const TODAY_MS = new Date(TODAY).getTime()
+
+  const getPresetRange = (preset: string): [string, string] => {
+    const d = new Date(TODAY)
+    switch (preset) {
+      case 'today':
+        return [TODAY, TODAY]
+      case 'last_7d': {
+        const s = new Date(TODAY_MS - 6 * 86_400_000)
+        return [s.toISOString().split('T')[0], TODAY]
+      }
+      case 'last_30d': {
+        const s = new Date(TODAY_MS - 29 * 86_400_000)
+        return [s.toISOString().split('T')[0], TODAY]
+      }
+      case 'this_week': {
+        const dow = d.getDay() === 0 ? 6 : d.getDay() - 1
+        const mon = new Date(TODAY_MS - dow * 86_400_000)
+        const sun = new Date(mon.getTime() + 6 * 86_400_000)
+        return [mon.toISOString().split('T')[0], sun.toISOString().split('T')[0]]
+      }
+      case 'this_month':
+        return [`${TODAY.slice(0, 7)}-01`, TODAY]
+      case 'this_year':
+        return [`${TODAY.slice(0, 4)}-01-01`, TODAY]
+      default:
+        return ['', '']
+    }
+  }
+
+  const handlePresetChange = (v: string) => {
+    setDatePreset(v)
+    if (v === 'all') {
+      setDateFrom('')
+      setDateTo('')
+    } else if (v !== 'custom') {
+      const [start, end] = getPresetRange(v)
+      setDateFrom(start)
+      setDateTo(end)
+    }
+  }
+
+  const getMetaAdsEta = (status: ContentStatus, createdAt: string): string => {
+    if (status === 'active') return 'Running'
+    if (status === 'completed') return 'Completed'
+    if (status === 'unassigned') return 'TBD'
+    
+    const createdDate = new Date(createdAt)
+    let daysToAdd = 7
+    if (status === 'received') daysToAdd = 3
+    if (status === 'assigned') daysToAdd = 10
+
+    const etaDate = new Date(createdDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000)
+    const today = new Date(TODAY)
+    const diffTime = etaDate.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    if (diffDays < 0) {
+      return 'Pending launch'
+    } else if (diffDays === 0) {
+      return 'Today'
+    } else if (diffDays === 1) {
+      return 'Tomorrow'
+    } else {
+      return etaDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })
+    }
+  }
 
   // ── Filtered + sorted rows ──
   const rows = useMemo(() => {
@@ -233,11 +352,23 @@ export default function ContentPage() {
         <StatCard
           label="Total Content"
           value={String(items.length)}
-          sub={`${activeCount} active · ${unassignedCount} unassigned`}
+          sub={`${videoCount} videos · ${imageCount} images`}
         />
-        <StatCard label="Total Spend"   value={fmt(totalSpend,   'currency')} />
-        <StatCard label="Total Revenue" value={fmt(totalRevenue, 'currency')} />
-        <StatCard label="Overall ROAS"  value={fmt(overallRoas,  'roas')} />
+        <StatCard
+          label="Active"
+          value={String(activeCount)}
+          sub="Running on Meta Ads"
+        />
+        <StatCard
+          label="In Pipeline"
+          value={String(pipelineCount)}
+          sub="Assigned or received"
+        />
+        <StatCard
+          label="Unassigned"
+          value={String(unassignedCount)}
+          sub="Needs an agency"
+        />
       </div>
 
       {/* ── Filters ── */}
@@ -289,24 +420,50 @@ export default function ContentPage() {
           </SelectContent>
         </Select>
 
-        <div className="flex items-center gap-1.5">
-          <CalendarDays className="h-4 w-4 text-gray shrink-0" />
-          <Input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            className="w-[148px]"
-            title="From date"
-          />
-          <span className="text-gray text-sm">–</span>
-          <Input
-            type="date"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className="w-[148px]"
-            title="To date"
-          />
-        </div>
+        <Select value={datePreset} onValueChange={(v) => handlePresetChange(v)}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Date Range" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Time</SelectItem>
+            <SelectItem value="today">Today</SelectItem>
+            <SelectItem value="last_7d">Past 7 Days</SelectItem>
+            <SelectItem value="last_30d">Past 30 Days</SelectItem>
+            <SelectItem value="this_week">This Week</SelectItem>
+            <SelectItem value="this_month">This Month</SelectItem>
+            <SelectItem value="this_year">This Year</SelectItem>
+            <SelectItem value="custom">Custom Range</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {datePreset === 'custom' && (
+          <div className="animate-in fade-in slide-in-from-left-2 duration-200">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant='outline' className="h-9 justify-start text-left font-normal flex gap-2">
+                  <CalendarIcon className="h-4 w-4 text-gray shrink-0" />
+                  {dateFrom && dateTo
+                    ? `${new Date(dateFrom).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} - ${new Date(dateTo).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}`
+                    : dateFrom
+                      ? `${new Date(dateFrom).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}`
+                      : 'Select date range'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+                <Calendar
+                  className='w-full'
+                  mode='range'
+                  defaultMonth={range?.from}
+                  selected={range}
+                  onSelect={handleRangeSelect}
+                  fixedWeeks
+                  showOutsideDays
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        )}
+
 
         <span className="ml-auto text-xs text-gray">
           {rows.length} of {items.length} items
@@ -327,6 +484,8 @@ export default function ContentPage() {
               <TableHead className={sortableTh} onClick={() => toggleSort('agency')}>
                 <span className="flex items-center gap-1.5">Agency <SortIcon col="agency" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
+              <TableHead className="whitespace-nowrap">Created</TableHead>
+              <TableHead className="whitespace-nowrap">ETA (Meta Ads)</TableHead>
               <TableHead className={sortableTh} onClick={() => toggleSort('status')}>
                 <span className="flex items-center gap-1.5">Status <SortIcon col="status" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
@@ -340,7 +499,7 @@ export default function ContentPage() {
           <TableBody>
             {rows.length === 0 ? (
               <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={6} className="py-12 text-center text-gray text-sm">
+                <TableCell colSpan={8} className="py-12 text-center text-gray text-sm">
                   No content matches your filters.
                 </TableCell>
               </TableRow>
@@ -383,6 +542,28 @@ export default function ContentPage() {
                       ? <span className="text-slate">{item.agency}</span>
                       : <span className="text-gray italic text-xs">Unassigned</span>
                     }
+                  </TableCell>
+
+                  {/* Created Date */}
+                  <TableCell className="whitespace-nowrap text-slate text-sm">
+                    {new Date(item.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </TableCell>
+
+                  {/* ETA to run on Meta Ads */}
+                  <TableCell className="whitespace-nowrap">
+                    {(() => {
+                      const eta = getMetaAdsEta(item.status, item.createdAt)
+                      if (eta === 'Running') {
+                        return <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />Running</span>
+                      }
+                      if (eta === 'Completed') {
+                        return <span className="text-xs font-medium text-gray-500">Completed</span>
+                      }
+                      if (eta === 'TBD') {
+                        return <span className="text-xs text-gray-400 italic">—</span>
+                      }
+                      return <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">{eta}</span>
+                    })()}
                   </TableCell>
 
                   {/* Status */}
@@ -472,3 +653,4 @@ export default function ContentPage() {
     </div>
   )
 }
+

@@ -43,9 +43,11 @@ function AppRoutes() {
   }
 
   if (user.role === 'agency') {
+    const slug = user.agencyName ? user.agencyName.toLowerCase().replace(/\s+/g, '-') : 'portal'
     return (
       <Routes>
-        <Route path="*" element={<AgencyPortal />} />
+        <Route path={`/agency/${slug}`} element={<AgencyPortal />} />
+        <Route path="*"                 element={<Navigate to={`/agency/${slug}`} replace />} />
       </Routes>
     )
   }

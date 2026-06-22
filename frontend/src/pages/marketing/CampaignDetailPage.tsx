@@ -3,9 +3,9 @@ import { useParams, useNavigate } from 'react-router'
 import {
   Target, MousePointerClick, Eye, Users, Heart, Play, Download,
   ChevronLeft, ChevronDown, ChevronRight,
-  Plus, MoreHorizontal, Pencil, Pause, CirclePlay, Archive,
+  MoreHorizontal, Pencil, Pause, CirclePlay, Archive,
   FileVideo, Image, ExternalLink,
-  Sparkles, TrendingUp, TrendingDown, AlertTriangle, Star, Zap, AlertCircle,
+  Sparkles, TrendingUp, TrendingDown, AlertTriangle, Star, Zap, AlertCircle, RefreshCw,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -306,6 +306,15 @@ export default function CampaignDetailPage() {
 
   // Brief loading animation on mount / campaign change
   const [aiLoading, setAiLoading] = useState(true)
+  const [isSyncing, setIsSyncing] = useState(false)
+
+  const handleSync = () => {
+    setIsSyncing(true)
+    setTimeout(() => {
+      setIsSyncing(false)
+    }, 1500)
+  }
+
   useEffect(() => {
     const t = setTimeout(() => setAiLoading(false), 900)
     return () => clearTimeout(t)
@@ -326,9 +335,7 @@ export default function CampaignDetailPage() {
     })
   }
 
-  function setCampaignStatus(status: typeof campaign.status) {
-    setCampaignItems((prev) => prev.map((c) => c.id === id ? { ...c, status } : c))
-  }
+
   function setAdSetStatus(adSetId: string, status: AdStatus) {
     setAdSetItems((prev) => prev.map((s) => s.id === adSetId ? { ...s, status } : s))
   }
@@ -618,24 +625,10 @@ export default function CampaignDetailPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          {campaign.status === 'active' && (
-            <Button variant="outline" size="sm" onClick={() => setCampaignStatus('paused')}>
-              <Pause className="h-3.5 w-3.5" />
-              Pause
-            </Button>
-          )}
-          {(campaign.status === 'paused' || campaign.status === 'draft') && (
-            <Button variant="outline" size="sm" onClick={() => setCampaignStatus('active')}>
-              <CirclePlay className="h-3.5 w-3.5" />
-              {campaign.status === 'draft' ? 'Launch' : 'Resume'}
-            </Button>
-          )}
-          {campaign.status === 'archived' && (
-            <Button variant="outline" size="sm" onClick={() => setCampaignStatus('paused')}>
-              <CirclePlay className="h-3.5 w-3.5" />
-              Restore
-            </Button>
-          )}
+          <Button onClick={handleSync} disabled={isSyncing} className="gap-2">
+            <RefreshCw className={cn("h-4 w-4", isSyncing && "animate-spin")} />
+            {isSyncing ? 'Syncing...' : 'Sync with Meta'}
+          </Button>
         </div>
       </div>
 
@@ -671,10 +664,6 @@ export default function CampaignDetailPage() {
             Ad Sets
             <span className="ml-2 text-sm font-normal text-gray">({adSetCount})</span>
           </h2>
-          <Button size="sm">
-            <Plus className="h-3.5 w-3.5" />
-            New Ad Set
-          </Button>
         </div>
 
         {adSets.length === 0 ? (
@@ -790,10 +779,6 @@ export default function CampaignDetailPage() {
                                 <span className="text-xs font-semibold uppercase tracking-wide text-gray">
                                   Ads in this ad set ({setAds.length})
                                 </span>
-                                <Button size="sm" variant="outline" className="h-7 text-xs">
-                                  <Plus className="h-3 w-3" />
-                                  New Ad
-                                </Button>
                               </div>
 
                               {setAds.length === 0 ? (

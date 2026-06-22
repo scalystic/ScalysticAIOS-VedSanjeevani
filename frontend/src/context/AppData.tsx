@@ -130,6 +130,7 @@ export interface CreatorItem {
   id:           string
   name:         string
   type:         CreatorType
+  agency:       string | null
   handle:       string | null
   platform:     string | null
   contactEmail: string

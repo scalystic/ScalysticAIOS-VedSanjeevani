@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import {
   Plus, Search, ArrowUpDown, ArrowUp, ArrowDown,
-  MoreHorizontal, Pencil, Trash2,
+  MoreHorizontal, Pencil, Trash2, AlertTriangle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -70,7 +70,21 @@ const AGENCY_STATUS_VARIANT: Record<AgencyStatus, BadgeProps['variant']> = {
   active:   'success',
   inactive: 'muted',
 }
-type AgencySortKey = 'name' | 'type' | 'status' | 'roas'
+type AgencySortKey = 'name' | 'status' | 'roas'
+
+const AVATAR_PALETTES = [
+  'bg-mint text-deep-green',
+  'bg-blue-100 text-blue-700',
+  'bg-purple-100 text-purple-700',
+  'bg-orange-100 text-orange-700',
+  'bg-pink-100 text-pink-700',
+  'bg-indigo-100 text-indigo-700',
+]
+function avatarColor(name: string) {
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) % AVATAR_PALETTES.length
+  return AVATAR_PALETTES[h]
+}
 
 // ── Creator config ────────────────────────────────────────────────────────────
 
@@ -155,17 +169,19 @@ export default function AgencyPage() {
   }, [contentItems, adItems])
 
   // ─── Agency state ─────────────────────────────────────────────────────────
-  const [agencySearch,  setAgencySearch]  = useState('')
-  const [agencySortKey, setAgencySortKey] = useState<AgencySortKey>('name')
-  const [agencySortDir,    setAgencySortDir]    = useState<SortDir>('asc')
-  const [addAgencyOpen,    setAddAgencyOpen]    = useState(false)
-  const [editingAgency,    setEditingAgency]    = useState<AgencyItem | null>(null)
+  const [agencySearch,       setAgencySearch]       = useState('')
+  const [agencyStatusFilter, setAgencyStatusFilter] = useState<AgencyStatus | 'all'>('all')
+  const [agencySortKey,      setAgencySortKey]      = useState<AgencySortKey>('name')
+  const [agencySortDir,      setAgencySortDir]      = useState<SortDir>('asc')
+  const [addAgencyOpen,      setAddAgencyOpen]      = useState(false)
+  const [editingAgency,      setEditingAgency]      = useState<AgencyItem | null>(null)
 
   const agencyRows = useMemo(() => {
     const q = agencySearch.toLowerCase()
     return agencyItems
       .filter(a =>
-        a.name.toLowerCase().includes(q) || a.contactName.toLowerCase().includes(q) || a.contactEmail.toLowerCase().includes(q)
+        (a.name.toLowerCase().includes(q) || a.contactName.toLowerCase().includes(q) || a.contactEmail.toLowerCase().includes(q)) &&
+        (agencyStatusFilter === 'all' || a.status === agencyStatusFilter)
       )
       .sort((a, b) => {
         const av = agencySortKey === 'roas' ? (agencyRoas.get(a.name) ?? 0) : a[agencySortKey] as string
@@ -173,7 +189,7 @@ export default function AgencyPage() {
         const cmp = typeof av === 'string' ? av.localeCompare(bv as string) : (av as number) - (bv as number)
         return agencySortDir === 'asc' ? cmp : -cmp
       })
-  }, [agencyItems, agencySearch, agencySortKey, agencySortDir, agencyRoas])
+  }, [agencyItems, agencySearch, agencyStatusFilter, agencySortKey, agencySortDir, agencyRoas])
 
   function toggleAgencySort(col: AgencySortKey) {
     if (col === agencySortKey) setAgencySortDir(d => d === 'asc' ? 'desc' : 'asc')
@@ -261,16 +277,16 @@ export default function AgencyPage() {
       </div>
 
       {/* ── Tab bar ── */}
-      <div className="flex border-b border-border">
+      <div className="inline-flex p-1 bg-slate-100/80 rounded-xl border border-slate-200/60 shadow-sm max-w-fit">
         {(['agencies', 'creators'] as ActiveTab[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={cn(
-              'px-5 py-2.5 text-sm font-medium border-b-2 transition-colors cursor-pointer',
+              'px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap',
               activeTab === tab
-                ? 'border-teal text-teal'
-                : 'border-transparent text-gray hover:text-foreground'
+                ? 'bg-card text-teal shadow-sm border border-slate-200/20'
+                : 'text-gray hover:text-foreground hover:bg-slate-200/40'
             )}
           >
             {tab === 'agencies'
@@ -280,21 +296,39 @@ export default function AgencyPage() {
         ))}
       </div>
 
+
       {/* ════════════ AGENCIES TAB ════════════ */}
       {activeTab === 'agencies' && (
         <>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <StatCard label="Total Agencies"   value={String(agencyItems.length)} sub={`${agencyItems.filter(a => a.status === 'active').length} active`} />
-            <StatCard label="Performance Mktg" value={String(agencyItems.filter(a => a.type === 'performance').length)} />
-            <StatCard label="Creator Agencies" value={String(agencyItems.filter(a => a.type === 'creator').length)} />
-            <StatCard label="Active Rate"      value={`${Math.round((agencyItems.filter(a => a.status === 'active').length / Math.max(agencyItems.length, 1)) * 100)}%`} />
-          </div>
+          {(() => {
+            const agencyCampaigns = campaignItems.filter(c => c.agency)
+            const totalSpend   = agencyCampaigns.reduce((s, c) => s + c.spend,   0)
+            const totalRevenue = agencyCampaigns.reduce((s, c) => s + c.revenue, 0)
+            const roasValues   = [...agencyRoas.values()].filter(v => v > 0)
+            const avgRoas      = roasValues.length > 0 ? roasValues.reduce((s, v) => s + v, 0) / roasValues.length : 0
+            return (
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <StatCard label="Total Agencies" value={String(agencyItems.length)} sub={`${agencyItems.filter(a => a.status === 'active').length} active`} />
+                <StatCard label="Ad Spend"       value={fmtINR(totalSpend)}   sub="via agencies" />
+                <StatCard label="Revenue"        value={fmtINR(totalRevenue)} sub="from agency campaigns" />
+                <StatCard label="Avg ROAS"       value={avgRoas > 0 ? fmtRoas(avgRoas) : '—'} sub="across all agencies" />
+              </div>
+            )
+          })()}
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative flex-1 min-w-[200px] max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray pointer-events-none" />
               <Input placeholder="Search by name or contact…" value={agencySearch} onChange={e => setAgencySearch(e.target.value)} className="pl-9" />
             </div>
+            <Select value={agencyStatusFilter} onValueChange={v => setAgencyStatusFilter(v as AgencyStatus | 'all')}>
+              <SelectTrigger className="w-[140px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
             <span className="ml-auto text-xs text-gray">{agencyRows.length} of {agencyItems.length}</span>
           </div>
 
@@ -305,15 +339,13 @@ export default function AgencyPage() {
                   <TableHead className={sortableTh} onClick={() => toggleAgencySort('name')}>
                     <span className="flex items-center gap-1.5">Agency Name <SortIcon col="name" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
                   </TableHead>
-                  <TableHead className={sortableTh} onClick={() => toggleAgencySort('type')}>
-                    <span className="flex items-center gap-1.5">Type <SortIcon col="type" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
-                  </TableHead>
+                  <TableHead>Contact</TableHead>
                   <TableHead className={sortableTh} onClick={() => toggleAgencySort('status')}>
                     <span className="flex items-center gap-1.5">Status <SortIcon col="status" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
                   </TableHead>
                   <TableHead className="text-center">Assigned</TableHead>
                   <TableHead className="text-center">Running</TableHead>
-                  <TableHead className="text-center">Not Running</TableHead>
+                  <TableHead className="text-center">Paused</TableHead>
                   <TableHead className={cn(sortableTh, 'text-right')} onClick={() => toggleAgencySort('roas')}>
                     <span className="flex items-center justify-end gap-1.5">ROAS <SortIcon col="roas" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
                   </TableHead>
@@ -332,7 +364,7 @@ export default function AgencyPage() {
                     <TableRow key={agency.id}>
                       <TableCell>
                         <div className="flex items-center gap-2.5">
-                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-mint text-deep-green text-xs font-bold select-none">
+                          <span className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold select-none', avatarColor(agency.name))}>
                             {agency.name.charAt(0)}
                           </span>
                           <button onClick={() => navigate(`/marketing/agencies/${agency.id}`)}
@@ -341,7 +373,12 @@ export default function AgencyPage() {
                           </button>
                         </div>
                       </TableCell>
-                      <TableCell><Badge variant={AGENCY_TYPE_VARIANT[agency.type]}>{AGENCY_TYPE_LABEL[agency.type]}</Badge></TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-sm font-medium text-foreground">{agency.contactName}</span>
+                          <span className="text-xs text-gray truncate max-w-[180px]">{agency.contactEmail}</span>
+                        </div>
+                      </TableCell>
                       <TableCell><Badge variant={AGENCY_STATUS_VARIANT[agency.status]}>{agency.status === 'active' ? 'Active' : 'Inactive'}</Badge></TableCell>
                       <TableCell className="text-center text-slate tabular-nums">{stats.assigned || <span className="text-gray">—</span>}</TableCell>
                       <TableCell className="text-center tabular-nums">
@@ -352,7 +389,10 @@ export default function AgencyPage() {
                       </TableCell>
                       <TableCell className="text-right tabular-nums whitespace-nowrap">
                         {roas > 0 ? (
-                          <span className={cn('font-semibold', roas >= 4 ? 'text-success' : roas >= 3 ? 'text-warning' : 'text-error')}>{fmtRoas(roas)}</span>
+                          <span className={cn('inline-flex items-center justify-end gap-1 font-semibold', roas >= 4 ? 'text-success' : roas >= 3 ? 'text-warning' : 'text-error')}>
+                            {roas < 2 && <AlertTriangle className="h-3.5 w-3.5 shrink-0" />}
+                            {fmtRoas(roas)}
+                          </span>
                         ) : <span className="text-gray">—</span>}
                       </TableCell>
                       <TableCell className="text-center">
@@ -423,19 +463,17 @@ export default function AgencyPage() {
                 <TableRow className="hover:bg-transparent">
                   <TableHead>Creator</TableHead>
                   <TableHead>Type</TableHead>
-                  <TableHead className="text-right">Content</TableHead>
-                  <TableHead className="hidden md:table-cell text-right">Spend</TableHead>
-                  <TableHead className="hidden md:table-cell text-right">ROAS</TableHead>
-                  <TableHead className="hidden lg:table-cell text-right">Rate / Video</TableHead>
-                  <TableHead className="hidden lg:table-cell text-right">Rate / Image</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Content</TableHead>
+                  <TableHead className="hidden md:table-cell text-right">Total Cost</TableHead>
+                  <TableHead className="hidden md:table-cell text-right">ROAS</TableHead>
                   <TableHead className="w-10" />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {creatorRows.length === 0 ? (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={9} className="py-12 text-center text-sm text-gray">No creators match your filters.</TableCell>
+                    <TableCell colSpan={7} className="py-12 text-center text-sm text-gray">No creators match your filters.</TableCell>
                   </TableRow>
                 ) : creatorRows.map(creator => {
                   const count   = creatorStats.contentCount.get(creator.name) ?? 0
@@ -447,32 +485,36 @@ export default function AgencyPage() {
                     <TableRow key={creator.id}>
                       <TableCell>
                         <div className="flex items-center gap-2.5">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-deep-green text-off-white text-sm font-bold select-none">
+                          <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold select-none', avatarColor(creator.name))}>
                             {creator.name.charAt(0)}
                           </span>
-                          <button
+                          <div className="flex flex-col gap-0.5 min-w-0">
+                            <button
                               onClick={() => navigate(`/marketing/creators/${creator.id}`)}
                               className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer text-left truncate max-w-[160px]"
                             >
                               {creator.name}
                             </button>
+                            {creator.handle && (
+                              <span className="text-xs text-gray truncate max-w-[160px]">
+                                {creator.handle}{creator.platform ? ` · ${creator.platform}` : ''}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell><Badge variant={CREATOR_TYPE_VARIANT[creator.type]}>{CREATOR_TYPE_LABEL[creator.type]}</Badge></TableCell>
+                      <TableCell><Badge variant={CREATOR_STATUS_VARIANT[creator.status]}>{creator.status === 'active' ? 'Active' : 'Inactive'}</Badge></TableCell>
                       <TableCell className="text-right tabular-nums font-medium text-foreground">{count}</TableCell>
                       <TableCell className="hidden md:table-cell text-right tabular-nums text-sm text-slate whitespace-nowrap">{fmtINR(spend)}</TableCell>
                       <TableCell className="hidden md:table-cell text-right tabular-nums whitespace-nowrap">
                         {roas > 0 ? (
-                          <span className={cn('font-semibold', roas >= 4 ? 'text-success' : roas >= 3 ? 'text-warning' : 'text-error')}>{fmtRoas(roas)}</span>
+                          <span className={cn('inline-flex items-center justify-end gap-1 font-semibold', roas >= 4 ? 'text-success' : roas >= 3 ? 'text-warning' : 'text-error')}>
+                            {roas < 3 && <AlertTriangle className="h-3.5 w-3.5 shrink-0" />}
+                            {fmtRoas(roas)}
+                          </span>
                         ) : <span className="text-gray">—</span>}
                       </TableCell>
-                      <TableCell className="hidden lg:table-cell text-right tabular-nums text-sm text-slate whitespace-nowrap">
-                        {creator.ratePerVideo > 0 ? fmtINR(creator.ratePerVideo) : <span className="text-gray">—</span>}
-                      </TableCell>
-                      <TableCell className="hidden lg:table-cell text-right tabular-nums text-sm text-slate whitespace-nowrap">
-                        {creator.ratePerImage > 0 ? fmtINR(creator.ratePerImage) : <span className="text-gray">—</span>}
-                      </TableCell>
-                      <TableCell><Badge variant={CREATOR_STATUS_VARIANT[creator.status]}>{creator.status === 'active' ? 'Active' : 'Inactive'}</Badge></TableCell>
                       <TableCell className="text-center">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -484,7 +526,14 @@ export default function AgencyPage() {
                             <DropdownMenuItem onClick={() => navigate(`/marketing/creators/${creator.id}`)}>View Details</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => setEditingCreator(creator)}><Pencil className="h-3.5 w-3.5" />Edit</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-error focus:text-error" onClick={() => handleDeleteCreator(creator.id)}>
+                            <DropdownMenuItem
+                              className="text-error focus:text-error"
+                              onClick={() => {
+                                if (window.confirm(`Delete "${creator.name}"? This cannot be undone.`)) {
+                                  handleDeleteCreator(creator.id)
+                                }
+                              }}
+                            >
                               <Trash2 className="h-3.5 w-3.5" />Delete
                             </DropdownMenuItem>
                           </DropdownMenuContent>

@@ -17,7 +17,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Main content shifts right by sidebar width */}
       <main
         className={cn(
-          'transition-[margin-left] duration-300 ease-in-out min-h-screen',
+          'transition-[margin-left] duration-300 ease-in-out min-h-screen bg-white dark:bg-background',
           sidebarCollapsed ? 'ml-[72px]' : 'ml-60'
         )}
       >

@@ -27,29 +27,45 @@ interface AuthCtxValue {
 const AuthContext = createContext<AuthCtxValue | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null)
+  const [user, setUser] = useState<AuthUser | null>(() => {
+    try {
+      const saved = localStorage.getItem('auth_user')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
 
   function login(email: string, password: string): { ok: boolean; error?: string } {
     if (email === ADMIN.email && password === ADMIN.password) {
-      setUser({ role: 'admin', name: 'Admin', email })
+      const u: AuthUser = { role: 'admin', name: 'Admin', email }
+      setUser(u)
+      localStorage.setItem('auth_user', JSON.stringify(u))
       return { ok: true }
     }
     const cred = AGENCY_CREDS.find(a => a.email === email && a.password === password)
     if (cred) {
-      setUser({
+      const u: AuthUser = {
         role:       'agency',
         name:       cred.name,
         email:      cred.email,
         agencyId:   cred.agencyId,
         agencyName: cred.agencyName,
-      })
+      }
+      setUser(u)
+      localStorage.setItem('auth_user', JSON.stringify(u))
       return { ok: true }
     }
     return { ok: false, error: 'Invalid email or password.' }
   }
 
+  function logout() {
+    setUser(null)
+    localStorage.removeItem('auth_user')
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout: () => setUser(null) }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

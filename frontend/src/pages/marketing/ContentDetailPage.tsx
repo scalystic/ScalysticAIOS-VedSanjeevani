@@ -310,7 +310,7 @@ export default function ContentDetailPage() {
     return () => clearTimeout(t)
   }, [id])
 
-  const { contentItems, adItems, adSetItems, campaignItems, agencyItems } = useAppData()
+  const { contentItems, adItems, adSetItems, campaignItems, agencyItems, creatorItems } = useAppData()
 
   const content = contentItems.find((c) => c.id === id)
 
@@ -352,6 +352,13 @@ export default function ContentDetailPage() {
   const linkedAgency = content?.agency
     ? agencyItems.find((a) => a.name === content.agency)
     : null
+
+  const creationCost = useMemo(() => {
+    if (!content) return 0
+    const creator = creatorItems.find((c) => c.name === content.creator)
+    if (!creator) return 0
+    return content.type === 'video' ? creator.ratePerVideo : creator.ratePerImage
+  }, [content, creatorItems])
 
   // ── Account-wide benchmarks (for comparison) ──
   const accountBenchmarks = useMemo(() => {
@@ -608,6 +615,7 @@ export default function ContentDetailPage() {
       <div>
         <h2 className="text-sm font-semibold text-foreground mb-3">Performance</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+          <MetricCard label="Creation Cost" value={creationCost > 0 ? fmtCurrency(creationCost) : '—'} sub="paid to creator" />
           <MetricCard label="Total Spend"   value={fmtCurrency(totalSpend)} />
           <MetricCard label="Total Revenue" value={fmtCurrency(totalRevenue)} />
           <MetricCard label="Overall ROAS"  value={fmtRoas(overallRoas)} />

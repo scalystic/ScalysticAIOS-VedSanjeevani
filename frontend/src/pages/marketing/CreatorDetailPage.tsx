@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import {
   ChevronLeft, FileVideo, Image, ExternalLink,
-  Mail, Phone, Link2,
+  Mail, Phone, Link2, Building2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -139,11 +139,14 @@ export default function CreatorDetailPage() {
   const totalSpend       = [...contentPerf.values()].reduce((s, p) => s + p.spend,    0)
   const totalRevenue     = [...contentPerf.values()].reduce((s, p) => s + p.revenue,  0)
   const totalImpressions = [...contentPerf.values()].reduce((s, p) => s + p.impressions, 0)
+  const totalClicks      = [...contentPerf.values()].reduce((s, p) => s + p.clicks,   0)
   const totalConversions = [...contentPerf.values()].reduce((s, p) => s + p.conversions, 0)
   const overallRoas      = totalSpend > 0 ? totalRevenue / totalSpend : 0
+  const avgCtr           = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0
 
-  const videoCount = myContent.filter(c => c.type === 'video').length
-  const imageCount = myContent.filter(c => c.type === 'image').length
+  const videoCount   = myContent.filter(c => c.type === 'video').length
+  const imageCount   = myContent.filter(c => c.type === 'image').length
+  const activeCount  = myContent.filter(c => c.status === 'active').length
 
   // Total creator cost (rate × pieces)
   const totalCreatorCost = creator
@@ -154,10 +157,10 @@ export default function CreatorDetailPage() {
     return (
       <div className="p-6">
         <button
-          onClick={() => navigate('/marketing/creators')}
+          onClick={() => navigate(-1)}
           className="flex items-center gap-1.5 text-sm text-gray hover:text-foreground transition-colors cursor-pointer mb-4"
         >
-          <ChevronLeft className="h-4 w-4" /> Creators
+          <ChevronLeft className="h-4 w-4" /> Back
         </button>
         <p className="text-gray">Creator not found.</p>
       </div>
@@ -169,10 +172,10 @@ export default function CreatorDetailPage() {
 
       {/* ── Breadcrumb ── */}
       <button
-        onClick={() => navigate('/marketing/creators')}
+        onClick={() => navigate(-1)}
         className="flex items-center gap-1.5 text-sm text-gray hover:text-foreground transition-colors cursor-pointer"
       >
-        <ChevronLeft className="h-4 w-4" /> Creators
+        <ChevronLeft className="h-4 w-4" /> Back
       </button>
 
       {/* ── Creator header ── */}
@@ -217,6 +220,13 @@ export default function CreatorDetailPage() {
                 <Phone className="h-3.5 w-3.5" />
                 {creator.contactPhone}
               </span>
+              <span className="flex items-center gap-1.5 text-xs text-gray">
+                <Building2 className="h-3.5 w-3.5" />
+                {creator.agency
+                  ? <span className="text-foreground font-medium">{creator.agency}</span>
+                  : <span className="italic">Independent</span>
+                }
+              </span>
               <span className="text-xs text-gray">
                 Joined {new Date(creator.joinedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
@@ -225,59 +235,15 @@ export default function CreatorDetailPage() {
         </div>
       </div>
 
-      {/* ── Rate card ── */}
-      {(creator.ratePerVideo > 0 || creator.ratePerImage > 0) && (
-        <Card className="border-l-4 border-l-teal">
-          <CardContent className="px-5 py-4">
-            <p className="text-xs text-gray font-medium uppercase tracking-wide mb-3">Creator Rates</p>
-            <div className="flex flex-wrap items-center gap-6">
-              {creator.ratePerVideo > 0 && (
-                <div className="flex items-center gap-2.5">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-info/10 text-info">
-                    <FileVideo className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="text-[10px] text-gray uppercase tracking-wide">Per Video</p>
-                    <p className="text-lg font-bold text-foreground tabular-nums">{fmtINR(creator.ratePerVideo)}</p>
-                  </div>
-                </div>
-              )}
-              {creator.ratePerImage > 0 && (
-                <div className="flex items-center gap-2.5">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-warning/10 text-warning">
-                    <Image className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="text-[10px] text-gray uppercase tracking-wide">Per Image</p>
-                    <p className="text-lg font-bold text-foreground tabular-nums">{fmtINR(creator.ratePerImage)}</p>
-                  </div>
-                </div>
-              )}
-              {totalCreatorCost > 0 && (
-                <>
-                  <div className="h-8 w-px bg-border hidden sm:block" />
-                  <div>
-                    <p className="text-[10px] text-gray uppercase tracking-wide">
-                      Total Creator Cost ({videoCount}V + {imageCount}I)
-                    </p>
-                    <p className="text-lg font-bold text-foreground tabular-nums">{fmtINR(totalCreatorCost)}</p>
-                  </div>
-                </>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       {/* ── KPI cards ── */}
       <div>
         <h2 className="text-sm font-semibold text-foreground mb-3">Performance</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
-          <KpiCard label="Total Content" value={String(myContent.length)} sub={`${videoCount} videos · ${imageCount} images`} />
-          <KpiCard label="Total Spend"   value={fmtINR(totalSpend)} />
-          <KpiCard label="Total Revenue" value={fmtINR(totalRevenue)} />
+          <KpiCard label="Total Content"  value={String(myContent.length)} sub={`${videoCount} videos · ${imageCount} images`} />
+          <KpiCard label="Active Now"    value={String(activeCount)} sub="running on Meta Ads" />
           <KpiCard label="Overall ROAS"  value={fmtRoas(overallRoas)} />
           <KpiCard label="Impressions"   value={fmtCompact(totalImpressions)} />
+          <KpiCard label="Avg CTR"       value={avgCtr > 0 ? fmtPct(avgCtr) : '—'} />
           <KpiCard label="Conversions"   value={totalConversions > 0 ? String(totalConversions) : '—'} />
         </div>
       </div>
@@ -306,8 +272,6 @@ export default function CreatorDetailPage() {
                   <TableHead className="hidden sm:table-cell">Format</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Creator Cost</TableHead>
-                  <TableHead className="text-right">Ad Spend</TableHead>
-                  <TableHead className="hidden md:table-cell text-right">Revenue</TableHead>
                   <TableHead className="text-right">ROAS</TableHead>
                   <TableHead className="hidden lg:table-cell text-right">Impressions</TableHead>
                   <TableHead className="hidden lg:table-cell text-right">CTR</TableHead>
@@ -373,16 +337,6 @@ export default function CreatorDetailPage() {
                         {creatorCost > 0 ? fmtINR(creatorCost) : <span className="text-gray">—</span>}
                       </TableCell>
 
-                      {/* Ad spend */}
-                      <TableCell className="text-right tabular-nums text-sm text-slate whitespace-nowrap">
-                        {fmtINR(adSpend)}
-                      </TableCell>
-
-                      {/* Revenue */}
-                      <TableCell className="hidden md:table-cell text-right tabular-nums text-sm text-slate whitespace-nowrap">
-                        {fmtINR(adRevenue)}
-                      </TableCell>
-
                       {/* ROAS */}
                       <TableCell className="text-right tabular-nums whitespace-nowrap">
                         {roas > 0 ? (
@@ -434,11 +388,6 @@ export default function CreatorDetailPage() {
               {totalCreatorCost > 0 && (
                 <p className="text-xs text-gray">
                   Total creator cost: <span className="font-semibold text-foreground">{fmtINR(totalCreatorCost)}</span>
-                </p>
-              )}
-              {totalSpend > 0 && (
-                <p className="text-xs text-gray">
-                  Total ad spend: <span className="font-semibold text-foreground">{fmtINR(totalSpend)}</span>
                 </p>
               )}
               {overallRoas > 0 && (
