@@ -337,15 +337,11 @@ export default function AgencyPage() {
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead className={sortableTh} onClick={() => toggleAgencySort('name')}>
-                    <span className="flex items-center gap-1.5">Agency Name <SortIcon col="name" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
-                  </TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead className={sortableTh} onClick={() => toggleAgencySort('status')}>
-                    <span className="flex items-center gap-1.5">Status <SortIcon col="status" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
+                    <span className="flex items-center gap-1.5">Agency <SortIcon col="name" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
                   </TableHead>
                   <TableHead className="text-center">Assigned</TableHead>
+                  <TableHead className="text-center">Verified</TableHead>
                   <TableHead className="text-center">Running</TableHead>
-                  <TableHead className="text-center">Paused</TableHead>
                   <TableHead className={cn(sortableTh, 'text-right')} onClick={() => toggleAgencySort('roas')}>
                     <span className="flex items-center justify-end gap-1.5">ROAS <SortIcon col="roas" sortKey={agencySortKey} sortDir={agencySortDir} /></span>
                   </TableHead>
@@ -355,11 +351,9 @@ export default function AgencyPage() {
               <TableBody>
                 {agencyRows.length === 0 ? (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={8} className="py-12 text-center text-sm text-gray">No agencies match your filters.</TableCell>
+                    <TableCell colSpan={6} className="py-12 text-center text-sm text-gray">No agencies match your filters.</TableCell>
                   </TableRow>
                 ) : agencyRows.map(agency => {
-                  const stats = agencyStats.get(agency.name) ?? { assigned: 0, running: 0, notRunning: 0 }
-                  const roas  = agencyRoas.get(agency.name) ?? 0
                   return (
                     <TableRow key={agency.id}>
                       <TableCell>
@@ -367,31 +361,33 @@ export default function AgencyPage() {
                           <span className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold select-none', avatarColor(agency.name))}>
                             {agency.name.charAt(0)}
                           </span>
-                          <button onClick={() => navigate(`/marketing/agencies/${agency.id}`)}
-                            className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap">
-                            {agency.name}
-                          </button>
+                          <div className="flex flex-col gap-0.5 min-w-0">
+                            <button onClick={() => navigate(`/marketing/agencies/${agency.id}`)}
+                              className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap">
+                              {agency.name}
+                            </button>
+                            <span className="text-xs text-gray">{agency.contactName} · {agency.contactEmail}</span>
+                          </div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-sm font-medium text-foreground">{agency.contactName}</span>
-                          <span className="text-xs text-gray truncate max-w-[180px]">{agency.contactEmail}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell><Badge variant={AGENCY_STATUS_VARIANT[agency.status]}>{agency.status === 'active' ? 'Active' : 'Inactive'}</Badge></TableCell>
-                      <TableCell className="text-center text-slate tabular-nums">{stats.assigned || <span className="text-gray">—</span>}</TableCell>
-                      <TableCell className="text-center tabular-nums">
-                        {stats.running > 0 ? <span className="font-medium text-success">{stats.running}</span> : <span className="text-gray">—</span>}
+                      <TableCell className="text-center tabular-nums text-slate font-medium">
+                        {agency.assignedContent || <span className="text-gray">—</span>}
                       </TableCell>
                       <TableCell className="text-center tabular-nums">
-                        {stats.notRunning > 0 ? <span className="text-slate">{stats.notRunning}</span> : <span className="text-gray">—</span>}
+                        {agency.verifiedContent > 0
+                          ? <span className={cn('font-medium', agency.verifiedContent < agency.assignedContent ? 'text-warning' : 'text-success')}>{agency.verifiedContent}</span>
+                          : <span className="text-gray">—</span>}
+                      </TableCell>
+                      <TableCell className="text-center tabular-nums">
+                        {agency.runningContent > 0
+                          ? <span className={cn('font-medium', agency.runningContent < agency.assignedContent * 0.5 ? 'text-error' : 'text-success')}>{agency.runningContent}</span>
+                          : <span className="text-error font-medium">0</span>}
                       </TableCell>
                       <TableCell className="text-right tabular-nums whitespace-nowrap">
-                        {roas > 0 ? (
-                          <span className={cn('inline-flex items-center justify-end gap-1 font-semibold', roas >= 4 ? 'text-success' : roas >= 3 ? 'text-warning' : 'text-error')}>
-                            {roas < 2 && <AlertTriangle className="h-3.5 w-3.5 shrink-0" />}
-                            {fmtRoas(roas)}
+                        {agency.roas > 0 ? (
+                          <span className={cn('inline-flex items-center justify-end gap-1 font-semibold', agency.roas >= 4 ? 'text-success' : agency.roas >= 3 ? 'text-warning' : 'text-error')}>
+                            {agency.roas < 2 && <AlertTriangle className="h-3.5 w-3.5 shrink-0" />}
+                            {fmtRoas(agency.roas)}
                           </span>
                         ) : <span className="text-gray">—</span>}
                       </TableCell>
