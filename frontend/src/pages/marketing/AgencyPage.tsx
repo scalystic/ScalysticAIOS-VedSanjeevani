@@ -357,13 +357,13 @@ export default function AgencyPage() {
                   return (
                     <TableRow key={agency.id}>
                       <TableCell>
-                        <div className="flex items-center gap-2.5">
-                          <span className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold select-none', avatarColor(agency.name))}>
+                        <div className="flex items-start gap-2.5">
+                          <span className={cn('flex h-8 w-8 mt-0.5 shrink-0 items-center justify-center rounded-lg text-xs font-bold select-none', avatarColor(agency.name))}>
                             {agency.name.charAt(0)}
                           </span>
                           <div className="flex flex-col gap-0.5 min-w-0">
                             <button onClick={() => navigate(`/marketing/agencies/${agency.id}`)}
-                              className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap text-left">
+                              className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap text-left block">
                               {agency.name}
                             </button>
                             <span className="text-xs text-gray truncate">{agency.contactName} · {agency.contactEmail}</span>
