@@ -363,10 +363,10 @@ export default function AgencyPage() {
                           </span>
                           <div className="flex flex-col gap-0.5 min-w-0">
                             <button onClick={() => navigate(`/marketing/agencies/${agency.id}`)}
-                              className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap">
+                              className="font-medium text-foreground hover:text-teal transition-colors cursor-pointer whitespace-nowrap text-left">
                               {agency.name}
                             </button>
-                            <span className="text-xs text-gray">{agency.contactName} · {agency.contactEmail}</span>
+                            <span className="text-xs text-gray truncate">{agency.contactName} · {agency.contactEmail}</span>
                           </div>
                         </div>
                       </TableCell>
