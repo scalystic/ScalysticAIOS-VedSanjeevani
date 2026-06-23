@@ -7,10 +7,10 @@
     "contactEmail": "amit@digireach.com",
     "contactPhone": "+91 98765 43210",
     "status": "active",
-    "assignedContent": 5,
-    "verifiedContent": 5,
-    "runningContent": 4,
-    "roas": 4.10,
+    "assignedContent": 18,
+    "verifiedContent": 18,
+    "runningContent": 16,
+    "roas": 4.62,
     "joinedAt": "2025-10-15"
   },
   {
@@ -21,10 +21,10 @@
     "contactEmail": "karan@brandnexus.co",
     "contactPhone": "+91 87654 32109",
     "status": "active",
-    "assignedContent": 3,
-    "verifiedContent": 2,
+    "assignedContent": 14,
+    "verifiedContent": 4,
     "runningContent": 1,
-    "roas": 3.67,
+    "roas": 3.21,
     "joinedAt": "2025-11-20"
   },
   {
@@ -35,9 +35,9 @@
     "contactEmail": "divya@growthtribe.io",
     "contactPhone": "+91 76543 21098",
     "status": "active",
-    "assignedContent": 5,
-    "verifiedContent": 3,
-    "runningContent": 2,
+    "assignedContent": 10,
+    "verifiedContent": 6,
+    "runningContent": 4,
     "roas": 4.03,
     "joinedAt": "2025-12-05"
   }
