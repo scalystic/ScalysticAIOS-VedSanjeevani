@@ -805,10 +805,14 @@ export default function AnalyticsPage() {
     categoryFilter,
   ]);
 
-  // ── Daily trend data (used for the spend/revenue chart only) ──
+  // ── Daily trend data ──
   const currDays = useMemo(
     () => sliceDailyData(rangeStart, rangeEnd),
     [rangeStart, rangeEnd],
+  );
+  const prevDays = useMemo(
+    () => sliceDailyData(prevStart, prevEnd),
+    [prevStart, prevEnd],
   );
 
   // ── Campaign-level filtered data ──
@@ -833,6 +837,72 @@ export default function AnalyticsPage() {
     [campaignItems, prevStart, prevEnd, platform, agencyFilter],
   );
   const prev = useMemo(() => sumCampaigns(prevCampaigns), [prevCampaigns]);
+
+  // ── Period-accurate deltas from daily time-series (campaign totals are static
+  //    lifetime figures so curr === prev when the same campaigns span both windows) ──
+  const currDailySpend = useMemo(
+    () =>
+      currDays.reduce(
+        (s, d) =>
+          s +
+          (platform === "meta"
+            ? d.metaSpend
+            : platform === "google"
+              ? d.googleSpend
+              : d.spend),
+        0,
+      ),
+    [currDays, platform],
+  );
+  const currDailyRevenue = useMemo(
+    () =>
+      currDays.reduce(
+        (s, d) =>
+          s +
+          (platform === "meta"
+            ? d.metaRevenue
+            : platform === "google"
+              ? d.googleRevenue
+              : d.revenue),
+        0,
+      ),
+    [currDays, platform],
+  );
+  const prevDailySpend = useMemo(
+    () =>
+      prevDays.reduce(
+        (s, d) =>
+          s +
+          (platform === "meta"
+            ? d.metaSpend
+            : platform === "google"
+              ? d.googleSpend
+              : d.spend),
+        0,
+      ),
+    [prevDays, platform],
+  );
+  const prevDailyRevenue = useMemo(
+    () =>
+      prevDays.reduce(
+        (s, d) =>
+          s +
+          (platform === "meta"
+            ? d.metaRevenue
+            : platform === "google"
+              ? d.googleRevenue
+              : d.revenue),
+        0,
+      ),
+    [prevDays, platform],
+  );
+  const currDailyRoas =
+    currDailySpend > 0 ? currDailyRevenue / currDailySpend : 0;
+  const prevDailyRoas =
+    prevDailySpend > 0 ? prevDailyRevenue / prevDailySpend : 0;
+  // Spend ratio used to scale campaign-derived impression/click/conversion totals
+  const dailySpendRatio =
+    currDailySpend > 0 ? prevDailySpend / currDailySpend : 0;
 
   const activeCampaignIds = useMemo(
     () => new Set(filteredCampaigns.map((c) => c.id)),
@@ -1572,32 +1642,41 @@ export default function AnalyticsPage() {
         <KpiCard
           label="Total Spend"
           value={fmtINR(curr.spend)}
-          change={pctChange(curr.spend, prev.spend)}
+          change={pctChange(currDailySpend, prevDailySpend)}
         />
         <KpiCard
           label="Total Revenue"
           value={fmtINR(curr.revenue)}
-          change={pctChange(curr.revenue, prev.revenue)}
+          change={pctChange(currDailyRevenue, prevDailyRevenue)}
         />
         <KpiCard
           label="Overall ROAS"
           value={fmtRoas(curr.roas)}
-          change={pctChange(curr.roas, prev.roas)}
+          change={pctChange(currDailyRoas, prevDailyRoas)}
         />
         <KpiCard
           label="Impressions"
           value={fmtCompact(curr.impressions)}
-          change={pctChange(curr.impressions, prev.impressions)}
+          change={pctChange(
+            curr.impressions,
+            Math.round(curr.impressions * dailySpendRatio),
+          )}
         />
         <KpiCard
           label="Clicks"
           value={fmtCompact(curr.clicks)}
-          change={pctChange(curr.clicks, prev.clicks)}
+          change={pctChange(
+            curr.clicks,
+            Math.round(curr.clicks * dailySpendRatio),
+          )}
         />
         <KpiCard
           label="Conversions"
           value={fmtCompact(curr.conversions)}
-          change={pctChange(curr.conversions, prev.conversions)}
+          change={pctChange(
+            curr.conversions,
+            Math.round(curr.conversions * dailySpendRatio),
+          )}
         />
       </div>
 

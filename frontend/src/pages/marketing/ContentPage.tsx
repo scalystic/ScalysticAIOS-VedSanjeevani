@@ -471,7 +471,7 @@ export default function ContentPage() {
               <TableHead className={sortableTh} onClick={() => toggleSort('agency')}>
                 <span className="flex items-center gap-1.5">Agency <SortIcon col="agency" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
-              <TableHead className="whitespace-nowrap">Created</TableHead>
+              <TableHead className="whitespace-nowrap">Meta Live / Created</TableHead>
               <TableHead className={sortableTh} onClick={() => toggleSort('status')}>
                 <span className="flex items-center gap-1.5">Status <SortIcon col="status" sortKey={sortKey} sortDir={sortDir} /></span>
               </TableHead>
@@ -530,9 +530,19 @@ export default function ContentPage() {
                     }
                   </TableCell>
 
-                  {/* Created Date */}
-                  <TableCell className="whitespace-nowrap text-slate text-sm">
-                    {new Date(item.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  {/* Meta Live Date + Created Date */}
+                  <TableCell className="whitespace-nowrap text-sm">
+                    {item.metaActiveDate ? (
+                      <span className="inline-flex items-center gap-1.5 text-success font-medium">
+                        <span className="h-1.5 w-1.5 rounded-full bg-success shrink-0" />
+                        {new Date(item.metaActiveDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </span>
+                    ) : (
+                      <span className="text-gray">—</span>
+                    )}
+                    <p className="text-[11px] text-gray mt-0.5">
+                      Created {new Date(item.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </p>
                   </TableCell>
 
                   {/* Status */}
